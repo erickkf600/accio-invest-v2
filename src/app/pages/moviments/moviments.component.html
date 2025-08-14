@@ -1,0 +1,19 @@
+<section>
+  <div class="w-full flex justify-content-between align-items-center py-3">
+    <h1 class="font-semibold text-lg mb-5">Movimentações</h1>
+
+    <app-menu [items]="menuItens" #menu />
+    <button
+      pButton
+      [label]="titles[(movimentsService.formType$ | async) || 0]"
+      icon="pi pi-chevron-down"
+      type="button"
+      class="surface-900 border-black-alpha-90"
+      (click)="menu.toggle($event)"
+    >
+      &nbsp;
+    </button>
+  </div>
+
+  <moviments-list *ngIf="!(formTypes | async)" />
+</section>

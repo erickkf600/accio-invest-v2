@@ -1,0 +1,35 @@
+@import 'variables';
+@import 'mixins';
+
+.sidemenu {
+  &__brand {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    @include respond-to('medium') {
+      display: none;
+    }
+    img {
+      width: 70%;
+      padding-top: 15px;
+    }
+  }
+  &__content {
+    width: 100% !important;
+    background: transparent;
+    &-item {
+      border-radius: 5px;
+    }
+  }
+  .active {
+    color: var(--surface-0);
+    background: var(--surface-900);
+  }
+  .p-submenu-header {
+    background: transparent;
+  }
+  .p-menuitem-content {
+    border-radius: 5px;
+  }
+}

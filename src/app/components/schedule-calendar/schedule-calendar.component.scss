@@ -1,0 +1,76 @@
+.cal-month-view {
+  background: transparent;
+}
+.cal-header {
+  border-bottom: solid 1px #ccc;
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+  pointer-events: none;
+  .cal-cell {
+    color: var(--surface-400);
+    font-weight: 600;
+  }
+}
+.cal-month-view .cal-day-cell {
+  border-radius: 0.5rem !important;
+}
+.cal-month-view .cal-cell-row .cal-cell:hover,
+.cal-month-view .cal-cell.cal-has-events.cal-open {
+  background: var(--dp-highlight);
+  color: var(--text-color);
+}
+.cal-month-view .cal-days {
+  border: none;
+}
+.cal-month-view .cal-cell-row {
+  gap: 5px;
+  &:hover {
+    background: transparent;
+  }
+}
+.cal-month-view .cal-days .cal-cell-row {
+  border: none;
+}
+.cal-month-view .cal-day-cell {
+  min-height: auto;
+  border: none;
+}
+
+.cal-month-view .cal-day-cell:not(:last-child) {
+  border: none;
+}
+
+.cal-days {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.cal-out-month {
+  opacity: 0.2;
+  pointer-events: none;
+}
+.cal-month-view .cal-day-cell.cal-today {
+  background: transparent;
+}
+.cal-has-events {
+  background: transparent;
+}
+
+.event-mark {
+  background: var(--text-color);
+  position: absolute;
+  bottom: -1px;
+  right: -3px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  z-index: 2;
+}
+
+.active-highlight {
+  background: var(--dp-highlight);
+  border-radius: 0.5rem;
+  color: var(--text-color);
+  font-weight: 700;
+}

@@ -1,0 +1,40 @@
+<div class="header">
+  <div class="header__brand">
+    <img [src]="light ? 'assets/imgs/logo.png' : 'assets/imgs/logo-white.png'" alt="" />
+  </div>
+  <button
+    #menubutton
+    class="p-link header__menu-button header__button"
+    (click)="layoutService.onMenuToggle()"
+  >
+    <i class="pi pi-bars"></i>
+  </button>
+
+  <button
+    #topbarmenubutton
+    class="p-link header__toggle header__button"
+    (click)="layoutService.showProfileSidebar()"
+  >
+    <i class="pi pi-ellipsis-v"></i>
+  </button>
+
+  <div
+    #topbarmenu
+    class="header__menu"
+    [ngClass]="{ 'header__menu--mobile-active': layoutService.state.profileSidebarVisible }"
+  >
+    <p-toggleButton
+      [(ngModel)]="light"
+      (onChange)="setTheme(light)"
+      [onLabel]="'Dark'"
+      [offLabel]="'Light'"
+      [onIcon]="'icon-moon'"
+      [offIcon]="'icon-sun'"
+    />
+
+    <div class="p-link header__user">
+      <i class="pi pi-user"></i>
+      <p class="ml-3">{{ userName }}</p>
+    </div>
+  </div>
+</div>

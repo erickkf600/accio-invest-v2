@@ -1,0 +1,35 @@
+Fazer responsivo - validar como subir pro ambiente ver os exemplos de dash no pinterest
+
+Paginas:
+
+LOGIN / CADASTRO
+Sistema de autenticação padrão
+Ajustar cadastros no banco para atrelar ao usuário
+
+HOME
+✅ Resumo: total investido, ultimo aporte, ultimo pagamento, patrimono
+- Grafico comparativo do rendimento com cdi podendo selecionar o ano
+- Grafico evolução do patrimônio podendo selecionar anual e trimestral
+- Grafico de alocações
+- Grafico comparando aportes do ano selecionado com do anterior (select para selecionar o ano, default ano atual)
+
+
+MOVIMENTAÇÕES
+ - Validar cadastros para renda fixa
+ - Validar mudanças para desdobramentos
+ - mantenha do jeito que ta
+ - (á validar) armazenar a nota de corretagem base64? ou ler o pdf pra pegar os aports
+
+
+CARTEIRA
+- vai ter cards indicando o total médio (soma dos preços medios), total atual (soma dos preços atuais), total rendimento (soma dos rendimentos)
+- vai ter a lista de ativos gráfico de proventos igual da b3 que ao clicar no mês aparece a lista (mês atual como default),
+- o patrimônio x ganho e o Variação da ultima compra vao virar "Resumo de rendimento" com o preço médio atual, porcentagem de rendimento pm e rendimento com proventos colunas (cod, qtd, p. atual, p médio, total pm, total invest., total atual). o header da tablea precisa ser fixo, a tabela paginada e com filter
+- (verificar logica) *fazer a rentabilidade baseado na some de todos os preços médios* ou adicionar um camp no form de dividendos para inserir o dividend yeld e calcular a media a partir de todos do mês
+
+
+RELATÓRIOS
+- nova pagina para relatórios, no side menu vai ter sub menu igual q tinha no de ferramentas mas deve abrir somente com o click e deve ser absolute (poder baixar pdf)
+- itens do submenu (His de preço médio, His de aports, His de dividendos, His de vendas) (talvez no histórico de vendar exibir a porcentagem e valor de lucro ou perda)
+- Adicionar relatório de aluguel de ações, criar um novo formato de cadastro para registro disso
+

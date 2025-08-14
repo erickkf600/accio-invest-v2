@@ -1,0 +1,153 @@
+@font-face {
+  font-family: 'icomoon';
+  src:  url('fonts/icomoon.eot?7af89l');
+  src:  url('fonts/icomoon.eot?7af89l#iefix') format('embedded-opentype'),
+    url('fonts/icomoon.ttf?7af89l') format('truetype'),
+    url('fonts/icomoon.woff?7af89l') format('woff'),
+    url('fonts/icomoon.svg?7af89l#icomoon') format('svg');
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'icomoon' !important;
+  speak: never;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-menu:before {
+  content: "\e926";
+}
+.icon-chart:before {
+  content: "\e922";
+}
+.icon-chart-bar:before {
+  content: "\e923";
+}
+.icon-chart-pie:before {
+  content: "\e924";
+}
+.icon-currency-dollar:before {
+  content: "\e925";
+}
+.icon-help:before {
+  content: "\e91d";
+}
+.icon-moon:before {
+  content: "\e9c7";
+}
+.icon-sun:before {
+  content: "\e9c8";
+}
+.icon-warning:before {
+  content: "\e91a";
+}
+.icon-checkmark:before {
+  content: "\e91b";
+}
+.icon-cancel:before {
+  content: "\e91c";
+}
+.icon-eye:before {
+  content: "\e921";
+}
+.icon-x-circle:before {
+  content: "\e920";
+}
+.icon-edit:before {
+  content: "\e91e";
+}
+.icon-info:before {
+  content: "\e91f";
+}
+.icon-arrow-left-s:before {
+  content: "\e914";
+}
+.icon-arrow-down-s:before {
+  content: "\e915";
+}
+.icon-arrow-top-s:before {
+  content: "\e916";
+}
+.icon-arrow-right-s:before {
+  content: "\e917";
+}
+.icon-trash-2:before {
+  content: "\e918";
+}
+.icon-check-circle:before {
+  content: "\e919";
+}
+.icon-calendar:before {
+  content: "\e907";
+}
+.icon-remove:before {
+  content: "\e900";
+}
+.icon-add-circle:before {
+  content: "\e905";
+}
+.icon-remove-circle:before {
+  content: "\e904";
+}
+.icon-cart:before {
+  content: "\e903";
+}
+.icon-add:before {
+  content: "\e902";
+}
+.icon-list:before {
+  content: "\e901";
+}
+.icon-chip:before {
+  content: "\e913";
+}
+.icon-visa:before {
+  content: "\e911";
+}
+.icon-mastercard:before {
+  content: "\e912";
+}
+.icon-config-preenchido:before {
+  content: "\e910";
+}
+.icon-data-preenchimento:before {
+  content: "\e90f";
+}
+.icon-card-preenchimento:before {
+  content: "\e90d";
+}
+.icon-home-preenchimento:before {
+  content: "\e90e";
+}
+.icon-user:before {
+  content: "\e908";
+}
+.icon-logout:before {
+  content: "\e909";
+}
+.icon-config:before {
+  content: "\e90a";
+}
+.icon-data:before {
+  content: "\e90b";
+}
+.icon-card:before {
+  content: "\e90c";
+}
+.icon-home:before {
+  content: "\e906";
+}
+.icon-anticipation:before {
+  content: "\eb0a";
+}

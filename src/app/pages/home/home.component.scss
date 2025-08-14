@@ -1,0 +1,28 @@
+@import 'mixins';
+.home {
+  &__evolution-grid {
+    display: grid;
+    grid-template-columns: 0.4fr 1fr;
+    align-items: flex-start;
+    gap: 5px;
+  }
+}
+.legend {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  &:before {
+    content: '\2586';
+    font-size: 12px;
+    color: #00034d;
+    top: -3px;
+    position: relative;
+  }
+
+  &--wallet {
+    &:before {
+      color: #1c1c1c;
+    }
+  }
+}

@@ -1,1 +1,169 @@
-/* You can add global styles to this file, and also import other style files */
+:root {
+  --primary-color: #000;
+  --primary-light: #c1d4ff;
+}
+
+$gutter: 1rem;
+@import './assets/styles/main.scss';
+@import './assets/icons/style.css';
+/* PrimeNG */
+@import '../node_modules/primeng/resources/primeng.min.css';
+// @import '../node_modules/primeng/resources/themes/lara-light-blue/theme.css';
+@import '../node_modules/primeflex/primeflex.scss';
+@import '../node_modules/primeicons/primeicons.css';
+@import '../node_modules/angular-calendar/css/angular-calendar.css';
+
+body {
+  font-family: var(--font-family);
+  color: var(--text-color);
+  background-color: var(--surface-ground);
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.p-dropdown {
+  background: rgb(255 255 255 / 20%);
+  border: solid 1px rgb(0 0 0 / 30%);
+  margin: 0 !important;
+  width: 100%;
+
+  &-item {
+    padding: 7px 10px;
+  }
+}
+
+.p-overlaypanel {
+  box-shadow: -1px 8px 16px -9px rgb(0 0 0 / 26%);
+
+  &-content {
+    padding: 0;
+  }
+}
+.custom-bage {
+  border-radius: 8px;
+  padding: 0.25em 0.5rem;
+  text-transform: uppercase;
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 0.3px;
+
+  &.success {
+    background: #c8e6c9;
+    color: #256029;
+  }
+
+  &.danger {
+    background: #ffcdd2;
+    color: #c63737;
+  }
+
+  &.warning {
+    background: #feedaf;
+    color: #8a5340;
+  }
+
+  &.secondary {
+    background: #eccfff;
+    color: #694382;
+  }
+}
+
+.card {
+  background: var(--surface-card);
+  border: 1px solid var(--surface-border);
+  padding: 2rem;
+  margin-bottom: 2rem;
+  box-shadow: var(--card-shadow);
+  border-radius: $borderRadius;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.p-toast {
+  &.p-toast-top-right,
+  &.p-toast-top-left,
+  &.p-toast-top-center {
+    top: 100px;
+  }
+}
+
+button {
+  outline: none;
+  box-shadow: none;
+}
+
+.p-inputtext {
+  outline: none !important;
+  box-shadow: none !important;
+  &:hover,
+  &:enabled:focus {
+    border-color: var(--surface-900);
+  }
+}
+
+.accio-table {
+  .p-datatable {
+    &-header {
+      background: transparent !important;
+      border: none;
+      padding: 1rem 0;
+    }
+  }
+  .p-datatable {
+    tr {
+      height: 52px;
+    }
+    &-thead {
+      th {
+        background: transparent;
+        color: #717987;
+        font-weight: 600;
+        border: none;
+        padding: 19px 15px;
+      }
+    }
+    &-tbody {
+      tr {
+        box-shadow: 0px 4px 11px -2px var(--shadow-color);
+        height: 52px;
+        margin-bottom: 10px;
+      }
+      td {
+        border: none;
+        color: var(--text-color);
+        font-size: 14px;
+      }
+    }
+  }
+  .p-dropdown {
+    padding: 0;
+    height: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 6px 0 6px 6px;
+    outline: none !important;
+    box-shadow: none !important;
+    .p-inputtext {
+      padding: 0 !important;
+    }
+    &-trigger {
+      width: fit-content !important;
+    }
+    .p-dropdown-panel .p-dropdown-items .p-dropdown-item.p-highlight {
+      background: var(--dp-highlight);
+      color: var(--dp-highlight-color);
+    }
+  }
+
+  &__action {
+    background: none;
+    border: none;
+  }
+}

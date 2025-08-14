@@ -1,0 +1,33 @@
+<div class="sidemenu relative h-full px-1">
+  <div class="sidemenu__brand">
+    <img
+      [src]="
+        (handleTheme._isLight$ | async) ? 'assets/imgs/logo.png' : 'assets/imgs/logo-white.png'
+      "
+      alt=""
+    />
+  </div>
+  <p-menu [model]="menu" styleClass="w-full border-none sidemenu__content">
+    <ng-template pTemplate="submenuheader" let-item let-root="root">
+      <span class="font-bold text-400 text-xl py-2">{{ item.label }}</span>
+    </ng-template>
+    <ng-template pTemplate="item" let-item>
+      <a
+        pRipple
+        routerLinkActive="active"
+        class="flex align-items-center p-menuitem-link text-lg py-3 mt-3 sidemenu__content-item"
+        [routerLink]="item.routerLink"
+      >
+        <span [class]="item.icon + ' mr-2'"></span>
+        <span class="ml-2 text-base font-bold">{{ item.label }}</span>
+      </a>
+    </ng-template>
+  </p-menu>
+  <a
+    class="flex align-items-center text-lg py-3 absolute cursor-pointer sidemenu__content-item"
+    style="left: 15px; bottom: 15px; width: 80%"
+  >
+    <span class="pi pi-sign-out mr-2"></span>
+    <span class="ml-2 text-base font-bold">Sair</span>
+  </a>
+</div>

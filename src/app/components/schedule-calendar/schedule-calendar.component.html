@@ -1,0 +1,58 @@
+<ng-template #customCellTemplate let-day="day" let-locale="locale">
+  <div
+    class="h-auto px-2 py-2 text-center border-1 border-200 border-round-lg overflow-hidden relative text-xs"
+    (click)="clickEvent($event, day)"
+    [ngClass]="{
+      'active-highlight': (day.isToday && !selectedDate) || selectedDate == formatDate(day.date),
+    }"
+  >
+    <span>{{ day.date | calendarDate: 'monthViewDayNumber' : locale }}</span>
+    <span class="event-mark" *ngIf="day.events.length"></span>
+  </div>
+</ng-template>
+
+<mwl-calendar-month-view
+  [viewDate]="viewDate"
+  [events]="events"
+  [cellTemplate]="customCellTemplate"
+>
+</mwl-calendar-month-view>
+
+<p-overlayPanel #op appendTo="body">
+  <ul class="list-none p-2">
+    <ng-container *ngFor="let dvd of selectedContent; let last = last">
+      <li class="p-2 flex flex-column m-0 border-200">
+        <p class="my-0">{{ dvd.tag }}</p>
+        <small>{{ dvd.value | currency: 'BRL' }}</small>
+      </li>
+    </ng-container>
+  </ul>
+  <!-- <ng-container *ngFor="let evt of selectedContent; let last = last">
+      <li
+        class="p-2 flex flex-column m-0 border-200 relative cursor-pointer"
+        [class.border-bottom-1]="!last"
+        [class.mb-2]="!last"
+        (click)="openMore.click()"
+      >
+        <div class="flex gap-2">
+          <small class="text-xs border-right-1 border-200 pr-2">{{
+            evt.start | date: "HH'h'mm"
+          }}</small>
+          <span>
+            <strong class="m-0 text-md text-bluegray-400">{{ evt.title }}</strong>
+            <span class="flex flex-column mt-1">
+              <small class="text-sm">{{ evt.meta.address | lowercase }}</small>
+              <strong [class]="'text-xs mt-1 ' + setColor(evt.meta.status)">{{
+                setStatus(evt.meta.status) | translate
+              }}</strong>
+            </span>
+          </span>
+        </div>
+        <button
+          class="pi pi-chevron-right open-button"
+          #openMore
+          (click)="openDetail(evt.meta.id)"
+        ></button>
+      </li>
+    </ng-container> -->
+</p-overlayPanel>
