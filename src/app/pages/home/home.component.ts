@@ -1,16 +1,17 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core'
+import { Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core'
 import { ChartComponent } from 'ng-apexcharts'
 import { MessageService } from 'primeng/api'
 import { Subscription, finalize } from 'rxjs'
 import { Resume, resume } from './interface/resume.interface'
 import { HomeService } from './service/home.service'
 import { CalendarEvent } from 'angular-calendar'
-import { addHours, format, startOfDay } from 'date-fns'
+import { addHours, endOfMonth, format, parseISO, startOfDay, startOfMonth } from 'date-fns'
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
+  encapsulation: ViewEncapsulation.None,
 })
 export class HomeComponent implements OnInit, OnDestroy {
   cardsContent: any[] = []
@@ -19,10 +20,12 @@ export class HomeComponent implements OnInit, OnDestroy {
   public chartAlocationsOptions: any
   public chartCDIOptions: any
   public chartAportsOptions: any
+  public chartEvolutionOptions: any
   public loading = true
   public loadingCDI = true
   public loadingAports = true
   public loadingEvolution = true
+  public evolutionList: { total: string; label: string | string }[] = []
   private subscriptions: Subscription[] = []
   yearsList: { label: number; value: number }[] = []
   evolutionType: { label: string; value: string }[] = [
@@ -35,7 +38,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       value: 'month',
     },
   ]
-  selectedEvolutionType = 'year'
+  selectedEvolutionType: 'year' | 'month' = 'year'
   selectedCDiYear = new Date().getFullYear()
   selectedAportsYear = new Date().getFullYear()
   nextPayments: CalendarEvent[] = [
@@ -70,6 +73,8 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.displayResume()
     this.populateCdiChart(this.selectedCDiYear)
     this.populateAportsChart(this.selectedAportsYear)
+    this.getEvolutionOfPatrimony(this.selectedEvolutionType)
+    this.populateSchedule()
   }
   ngOnDestroy() {
     this.subscriptions.forEach(s => s.unsubscribe())
@@ -141,6 +146,33 @@ export class HomeComponent implements OnInit, OnDestroy {
             })
           },
         }),
+    )
+  }
+
+  populateSchedule() {
+    const today = new Date()
+    const dataInicio = format(startOfMonth(today), 'yyyy-MM-dd')
+    const dataFim = format(endOfMonth(today), 'yyyy-MM-dd')
+    this.subscriptions.push(
+      this.homeService.getEarningSchedule({ dataInicio, dataFim }).subscribe({
+        next: (res: any) => {
+          this.nextPayments = res.map((el: any) => {
+            const date = parseISO(el.payment_date)
+
+            return {
+              start: date,
+              meta: el.dividends,
+            }
+          })
+        },
+        error: err => {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: err?.error?.message,
+          })
+        },
+      }),
     )
   }
 
@@ -317,13 +349,17 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.populateAportsChart(this.selectedAportsYear)
   }
 
-  getEvolutionOfPatrimony(type: 'year' | 'month', pg = { page: 1, limit: 10 }) {
+  getEvolutionOfPatrimony(type: 'year' | 'month') {
     this.subscriptions.push(
       this.homeService
-        .getEvolutionList(type, pg)
+        .getEvolutionList(type)
         .pipe(finalize(() => (this.loadingEvolution = false)))
         .subscribe({
-          next: (res: any) => {},
+          next: (res: any) => {
+            this.evolutionList = res
+            const chartData = this.limitToTwelveItems(res)
+            this.creatingEvolutionChart(chartData)
+          },
           error: err => {
             this.messageService.add({
               severity: 'error',
@@ -335,5 +371,72 @@ export class HomeComponent implements OnInit, OnDestroy {
     )
   }
 
-  setEvolutionView() {}
+  setEvolutionView() {
+    this.getEvolutionOfPatrimony(this.selectedEvolutionType)
+  }
+
+  creatingEvolutionChart(content: any[]) {
+    this.chartEvolutionOptions = {
+      series: [
+        {
+          name: 'Patrimônio',
+          data: content.map((d: any) => d.total),
+          color: this.solidColor1,
+        },
+      ],
+      chart: {
+        type: 'area',
+        height: 350,
+        redrawOnParentResize: true,
+        redrawOnWindowResize: true,
+        toolbar: { show: false },
+        zoom: { enabled: false },
+      },
+      xaxis: {
+        categories: content.map((d: any) => d.label),
+        labels: { style: { colors: '#607D8B' } },
+      },
+      yaxis: {
+        labels: { style: { colors: '#90A4AE' } },
+      },
+      dataLabels: {
+        enabled: false,
+      },
+      stroke: {
+        curve: 'smooth',
+        width: 2,
+        // colors: [this.solidColor1],
+      },
+      fill: {
+        type: 'gradient',
+        gradient: {
+          shade: 'light',
+          type: 'vertical',
+          shadeIntensity: 1,
+          gradientToColors: [this.solidColor1],
+          opacityFrom: 0.7,
+          opacityTo: 0,
+          stops: [0, 90, 100],
+        },
+      },
+      markers: { show: false },
+      grid: { strokeDashArray: 4, borderColor: '#ccc' },
+      tooltip: {
+        followCursor: true,
+      },
+      legend: { show: false },
+    }
+  }
+
+  private limitToTwelveItems(data: any[]): any[] {
+    if (data.length <= 12) {
+      return data
+    }
+
+    // Calcula o passo de amostragem para pegar itens uniformemente distribuídos
+    const step = Math.ceil(data.length / 12)
+
+    // Filtra os itens mantendo a distribuição uniforme
+    return data.filter((_, index) => index % step === 0).slice(0, 12)
+  }
 }

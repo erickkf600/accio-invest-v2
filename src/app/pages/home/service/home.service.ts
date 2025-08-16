@@ -23,12 +23,11 @@ export class HomeService {
   getAportsList(year: number): Observable<any> {
     return this.http.get(`${this.apiUrl}/home/aports/${year}`).pipe(shareReplay(1))
   }
-  getEvolutionList(
-    type: 'year' | 'month',
-    pagination: { page: number; limit: number },
-  ): Observable<any> {
-    return this.http
-      .get(`${this.apiUrl}/home/evolution/${type}/${pagination.page}/${pagination.limit}`)
-      .pipe(shareReplay(1))
+  getEvolutionList(type: 'year' | 'month'): Observable<any> {
+    return this.http.get(`${this.apiUrl}/home/evolution/${type}`).pipe(shareReplay(1))
+  }
+
+  getEarningSchedule(body: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/wallet/ticker-earnings`, body).pipe(shareReplay(1))
   }
 }

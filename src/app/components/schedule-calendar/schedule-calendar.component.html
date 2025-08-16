@@ -19,40 +19,26 @@
 </mwl-calendar-month-view>
 
 <p-overlayPanel #op appendTo="body">
-  <ul class="list-none p-2">
+  <ul class="list-none p-2 date-details">
     <ng-container *ngFor="let dvd of selectedContent; let last = last">
-      <li class="p-2 flex flex-column m-0 border-200">
-        <p class="my-0">{{ dvd.tag }}</p>
-        <small>{{ dvd.value | currency: 'BRL' }}</small>
+      <li class="p-2 w-full flex flex-column m-0 border-200 pr-2" [class.border-bottom-1]="!last">
+        <span class="flex flex-row justify-content-between align-items-center">
+          <strong class="my-0">{{ dvd.ticker }}</strong>
+          <small>{{ dvd.value | currency: 'BRL' }}</small>
+        </span>
+        <span class="flex flex-row justify-content-between align-items-center">
+          <p class="my-1 mx-0 flex flex-column text-sm">
+            Data base
+            <small style="font-size: 10px" class="mt-1">{{
+              dvd.date_com | date: 'dd/MM/YYYY'
+            }}</small>
+          </p>
+          <p class="my-1 mx-0 flex flex-column text-sm">
+            Rendimento
+            <small style="font-size: 10px" class="mt-1 text-right">{{ dvd.percent }}%</small>
+          </p>
+        </span>
       </li>
     </ng-container>
   </ul>
-  <!-- <ng-container *ngFor="let evt of selectedContent; let last = last">
-      <li
-        class="p-2 flex flex-column m-0 border-200 relative cursor-pointer"
-        [class.border-bottom-1]="!last"
-        [class.mb-2]="!last"
-        (click)="openMore.click()"
-      >
-        <div class="flex gap-2">
-          <small class="text-xs border-right-1 border-200 pr-2">{{
-            evt.start | date: "HH'h'mm"
-          }}</small>
-          <span>
-            <strong class="m-0 text-md text-bluegray-400">{{ evt.title }}</strong>
-            <span class="flex flex-column mt-1">
-              <small class="text-sm">{{ evt.meta.address | lowercase }}</small>
-              <strong [class]="'text-xs mt-1 ' + setColor(evt.meta.status)">{{
-                setStatus(evt.meta.status) | translate
-              }}</strong>
-            </span>
-          </span>
-        </div>
-        <button
-          class="pi pi-chevron-right open-button"
-          #openMore
-          (click)="openDetail(evt.meta.id)"
-        ></button>
-      </li>
-    </ng-container> -->
 </p-overlayPanel>

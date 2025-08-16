@@ -23,45 +23,6 @@
 
     <div class="col-12 lg:col-9">
       <div class="card text-center" *ngIf="!loadingCDI">
-        <strong>Evolução do parimonio</strong>
-
-        <div class="home__evolution-grid">
-          <div class="mt-3 flex align-items-center justify-content-between">
-            <span class="flex gap-3">
-              <strong class="text-sm"> Visualizar por: </strong>
-            </span>
-            <p-dropdown
-              [(ngModel)]="selectedEvolutionType"
-              [options]="evolutionType"
-              optionLabel="label"
-              optionValue="value"
-              (onChange)="setEvolutionView()"
-            />
-
-            <ul>
-              <li></li>
-            </ul>
-          </div>
-          <div class="max-w-full overflow-hidden">
-            <apx-chart
-              #cdiChart
-              [series]="chartCDIOptions.series"
-              [chart]="chartCDIOptions.chart"
-              [xaxis]="chartCDIOptions.xaxis"
-              [yaxis]="chartCDIOptions.yaxis"
-              [stroke]="chartCDIOptions.stroke"
-              [dataLabels]="chartCDIOptions.dataLabels"
-              [fill]="chartCDIOptions.fill"
-              [markers]="chartCDIOptions.markers"
-              [tooltip]="chartCDIOptions.tooltip"
-              [grid]="chartCDIOptions.grid"
-              [legend]="chartCDIOptions.legend"
-            >
-            </apx-chart>
-          </div>
-        </div>
-      </div>
-      <div class="card text-center" *ngIf="!loadingCDI">
         <strong>Comparação CDI</strong>
 
         <div class="mt-3 flex align-items-center justify-content-between">
@@ -95,6 +56,55 @@
           </apx-chart>
         </div>
       </div>
+      <div class="card text-center" *ngIf="!loadingCDI">
+        <strong>Evolução do patrimônio</strong>
+
+        <div class="home__evolution-grid">
+          <div class="mt-3">
+            <div class="flex align-items-center justify-content-between">
+              <span class="flex gap-3">
+                <strong class="text-sm"> Visualizar por: </strong>
+              </span>
+              <p-dropdown
+                [(ngModel)]="selectedEvolutionType"
+                [options]="evolutionType"
+                optionLabel="label"
+                optionValue="value"
+                (onChange)="setEvolutionView()"
+                styleClass="home__selectType"
+              />
+            </div>
+
+            <ul class="py-0 pl-0 pr-2 list-none home__evaluation-list">
+              <li
+                *ngFor="let item of evolutionList"
+                class="flex align-items-center justify-content-between py-3 border-bottom-1 border-200"
+              >
+                <p class="m-0">{{ item.label }}</p>
+                <p class="m-0">{{ item.total }}</p>
+              </li>
+            </ul>
+          </div>
+          <div class="max-w-full overflow-hidden">
+            <apx-chart
+              #cdiChart
+              [series]="chartEvolutionOptions.series"
+              [chart]="chartEvolutionOptions.chart"
+              [xaxis]="chartEvolutionOptions.xaxis"
+              [yaxis]="chartEvolutionOptions.yaxis"
+              [stroke]="chartEvolutionOptions.stroke"
+              [dataLabels]="chartEvolutionOptions.dataLabels"
+              [fill]="chartEvolutionOptions.fill"
+              [markers]="chartEvolutionOptions.markers"
+              [tooltip]="chartEvolutionOptions.tooltip"
+              [grid]="chartEvolutionOptions.grid"
+              [legend]="chartEvolutionOptions.legend"
+            >
+            </apx-chart>
+          </div>
+        </div>
+      </div>
+
       <div class="card text-center" *ngIf="!loadingAports">
         <strong>Comparativo do aportes</strong>
 

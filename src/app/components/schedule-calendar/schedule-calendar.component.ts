@@ -52,7 +52,7 @@ export class ScheduleCalendarComponent implements OnInit, OnDestroy {
       } else {
         this.overlayPanel.show(ev)
       }
-      this.selectedContent = data.events.flatMap(item => item.meta.cod)
+      this.selectedContent = data.events.flatMap(item => item.meta)
       console.log(this.selectedContent)
     }
   }

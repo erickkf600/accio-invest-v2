@@ -74,3 +74,17 @@
   color: var(--text-color);
   font-weight: 700;
 }
+.date-details {
+  max-height: 300px;
+  overflow: auto;
+  width: 250px;
+
+  &::-webkit-scrollbar {
+    width: 2px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: var(--dp-highlight-color);
+    border-radius: 10px;
+  }
+}
