@@ -24,6 +24,8 @@
     "paths": {
       "@environment": ["src/environments/environment.ts"],
       "@components/*": ["src/app/components/*"],
+      "@validators/*": ["src/app/validators/*"],
+      "@mocks/*": ["src/app/mocks/*"],
       "@services/*": ["src/app/services/*"],
       "@enums": ["src/app/app.enums.ts"],
       "@contexts": ["src/app/app.contexts.ts"],

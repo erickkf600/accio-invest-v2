@@ -1,16 +1,14 @@
-import { CommonModule, registerLocaleData } from '@angular/common'
+import { CommonModule } from '@angular/common'
 import { NgModule } from '@angular/core'
 
 import { ScheduleCalendarComponent } from '@components/schedule-calendar/schedule-calendar.component'
 import { CalendarDateFormatter, CalendarModule, DateAdapter } from 'angular-calendar'
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns'
-import { CustomDateFormatter } from './custom-date.provider'
-import { OverlayPanelModule } from 'primeng/overlaypanel'
 import { ButtonModule } from 'primeng/button'
+import { OverlayPanelModule } from 'primeng/overlaypanel'
 import { TagModule } from 'primeng/tag'
-import localePt from '@angular/common/locales/pt'
+import { CustomDateFormatter } from './custom-date.provider'
 
-registerLocaleData(localePt)
 @NgModule({
   declarations: [ScheduleCalendarComponent],
   imports: [
