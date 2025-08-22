@@ -1,1 +1,32 @@
-<p>wallet works!</p>
+<section class="wallet">
+  <div class="grid">
+    <div class="col-12 lg:col-6 xl:col-4" *ngFor="let card of resume">
+      <div class="card mb-0">
+        <div class="flex justify-content-between mb-3">
+          <div>
+            <span class="block text-500 text-sm xl:text-lg mb-3">{{ card.title }}</span>
+            <div class="text-900 font-medium text-xl xl:text-2xl">{{ card.value }}</div>
+          </div>
+          <div
+            class="flex align-items-center justify-content-center border-round"
+            [ngClass]="card.iconBg"
+            [ngStyle]="{ width: '2.5rem', height: '2.5rem' }"
+          >
+            <i [class]="'text-xl xl:text-2xl ' + card.icon + ' ' + card.iconColor"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <accio-tabs [activeIndex]="activeTabIndex" (onChange)="setActiveTab($event)">
+    <tab-item label="Meus produtos">
+      <my-products />
+    </tab-item>
+    <tab-item label="Proventos">
+      <app-provents />
+    </tab-item>
+    <tab-item label="Rentabilidade">
+      <app-rentability />
+    </tab-item>
+  </accio-tabs>
+</section>

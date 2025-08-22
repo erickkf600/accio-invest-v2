@@ -55,7 +55,7 @@ export class DividendsComponent implements OnInit {
       date_operation: new FormControl(res.date_operation, Validators.required),
       dividends: new FormArray([
         new FormGroup({
-          type: new FormControl(res.type, Validators.required),
+          type: new FormControl(res.type.id, Validators.required),
           cod: new FormControl(res.cod, Validators.required),
           unity_value: new FormControl(res.unity_value, Validators.required),
           qtd: new FormControl(res.qtd, Validators.required),

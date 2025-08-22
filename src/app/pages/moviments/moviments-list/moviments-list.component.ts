@@ -106,7 +106,7 @@ export class MovimentsListComponent implements OnDestroy {
     }
   }
 
-  deleteMovement(event: Event, id: number) {
+  deleteMovement(event: Event, content: DataEntity) {
     this.confirmationService.confirm({
       target: event.target as EventTarget,
       message: 'Tem certeza que deseja deletar?',
@@ -115,6 +115,10 @@ export class MovimentsListComponent implements OnDestroy {
       acceptButtonStyleClass: 'p-button-contrast',
       rejectButtonStyleClass: 'p-button-outlined p-button-contrast',
       accept: () => {
+        const id = content?.split_inplit
+          ? `${content.id}?unfold_id=${content?.split_inplit.id}`
+          : content.id
+
         this.movimentsService.deleteMovimentation(id).subscribe({
           next: () => {
             this.messageService.add({

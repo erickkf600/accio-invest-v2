@@ -57,7 +57,7 @@ export class SellComponent implements OnInit {
     this.buildFormGroup = new FormGroup({
       fees: new FormControl(res.fee, [Validators.required, MaiorZeroValidator]),
       date_operation: new FormControl(res.date_operation, Validators.required),
-      type: new FormControl(res.type, Validators.required),
+      type: new FormControl(res.type.id, Validators.required),
       sell: new FormArray([
         new FormGroup({
           cod: new FormControl(res.cod, Validators.required),
@@ -107,7 +107,19 @@ export class SellComponent implements OnInit {
           this.SellArray.clear()
           this.addSell()
         } else {
-          this.movimentsService.patchMoviments(payload, res.id).subscribe({
+          this._calcFees(payload, data.fees)
+          const editPayload = payload.map((el: any) => ({
+            cod: el.cod,
+            date_operation: el.date_operation,
+            qtd: el.qtd,
+            type: el.type,
+            unity_value: el.unity_value,
+            type_operation: el.type_operation,
+            obs: el.obs,
+            fee: el.fee,
+            total: el.total,
+          }))
+          this.movimentsService.patchMoviments(editPayload, res.id).subscribe({
             next: () => {
               this.messageService.add({
                 severity: 'success',
@@ -141,7 +153,7 @@ export class SellComponent implements OnInit {
     const sum = values.reduce((acc: number, { total }: any) => total + acc, 0)
     return values.map((ell: any) => {
       const calc = Number(((fees / sum) * ell.total).toFixed(3))
-      const math = ell.total + calc
+      const math = ell.total - calc
       const calcTotal = Number(math.toFixed(3))
       return Object.assign(ell, {
         fee: calc,

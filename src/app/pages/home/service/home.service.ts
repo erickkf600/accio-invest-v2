@@ -10,7 +10,7 @@ import { resume } from '../interface/resume.interface'
 export class HomeService {
   readonly apiUrl = environment.apiUrl
   constructor(private http: HttpClient) {}
-
+  earningsCache$: Observable<any>
   resumeCache$: Observable<any>
   getResumeData(): Observable<resume> {
     this.resumeCache$ = this.http.get(`${this.apiUrl}/home/resume`).pipe(shareReplay(1))
@@ -28,6 +28,11 @@ export class HomeService {
   }
 
   getEarningSchedule(body: any): Observable<any> {
+    // if (this.earningsCache$) {
+    // this.earningsCache$ = this.http
+    //   .post(`${this.apiUrl}/wallet/ticker-earnings`, body)
+    //   .pipe(shareReplay(1))
+    // }
     return this.http.post(`${this.apiUrl}/wallet/ticker-earnings`, body).pipe(shareReplay(1))
   }
 }

@@ -57,7 +57,7 @@ export class PurchaseComponent implements OnInit {
       date_operation: new FormControl(res.date_operation, Validators.required),
       purchases: new FormArray([
         new FormGroup({
-          type: new FormControl(res.type, Validators.required),
+          type: new FormControl(res.type.id, Validators.required),
           cod: new FormControl(res.cod, Validators.required),
           unity_value: new FormControl(res.unity_value, Validators.required),
           qtd: new FormControl(res.qtd, Validators.required),
@@ -106,7 +106,19 @@ export class PurchaseComponent implements OnInit {
           this.PurchaseArray.clear()
           this.addPurchase()
         } else {
-          this.movimentsService.patchMoviments(payload, res.id).subscribe({
+          this._calcFees(payload, data.fees)
+          const editPayload = payload.map((el: any) => ({
+            cod: el.cod,
+            date_operation: el.date_operation,
+            qtd: el.qtd,
+            type: el.type,
+            unity_value: el.unity_value,
+            type_operation: el.type_operation,
+            obs: el.obs,
+            fee: el.fee,
+            total: el.total,
+          }))
+          this.movimentsService.patchMoviments(editPayload, res.id).subscribe({
             next: () => {
               this.messageService.add({
                 severity: 'success',

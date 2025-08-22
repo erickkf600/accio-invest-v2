@@ -1,0 +1,22 @@
+<p-tabView
+  [(activeIndex)]="activeIndex"
+  [styleClass]="styleClass + ' accio-tabs'"
+  (activeIndexChange)="handleChange($event)"
+  #tabView
+>
+  <p-tabPanel
+    *ngFor="let tab of tabComponents.toArray(); let i = index"
+    [header]="tab.label"
+    [disabled]="tab.disabled"
+  >
+    <ng-template pTemplate="header">
+      <span>
+        <i [class]="tab.leftIcon" *ngIf="tab.leftIcon"></i>
+        {{ tab.label }}
+        <i [class]="tab.rightIcon" *ngIf="tab.rightIcon"></i>
+      </span>
+    </ng-template>
+
+    <ng-container *ngTemplateOutlet="tab.contentTemplate"></ng-container>
+  </p-tabPanel>
+</p-tabView>

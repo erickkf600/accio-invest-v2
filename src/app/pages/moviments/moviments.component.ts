@@ -103,6 +103,7 @@ export class MovimentsComponent implements OnInit, OnDestroy {
         total: el.total,
       }
     })
+
     this.savingLoader = true
     this.movimentsService
       .saveMoviments(payload)

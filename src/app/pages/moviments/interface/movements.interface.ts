@@ -15,6 +15,14 @@ export interface DataEntity {
   total: number
   type_operation: TypeOperationOrType
   type: TypeOperationOrType
+  split_inplit?: Unfolding
+}
+
+export interface Unfolding {
+  id: number
+  from: number
+  to: number
+  factor: number
 }
 export interface TypeOperationOrType {
   title: string

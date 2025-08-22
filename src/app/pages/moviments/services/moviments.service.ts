@@ -66,7 +66,7 @@ export class MovimentsService {
     this.preSaved$.next(currentValue)
   }
 
-  deleteMovimentation(id: number): Observable<Object> {
+  deleteMovimentation(id: string | number): Observable<Object> {
     return this.http.delete(`${environment.apiUrl}/moviments/${id}`)
   }
 }

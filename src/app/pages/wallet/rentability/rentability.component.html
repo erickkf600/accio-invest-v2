@@ -1,0 +1,102 @@
+<div class="rentability">
+  <div class="card">
+    <strong class="text-lg">Rentabilidade do patrimônio</strong>
+
+    <div class="w-full mt-5">
+      <p-table [value]="patrimonyRent" styleClass="p-datatable-gridlines p-datatable-striped">
+        <ng-template pTemplate="header">
+          <tr>
+            <th class="text-center">Mês</th>
+            <th class="text-center">Patrimônio</th>
+            <th class="text-center">Proventos pagos</th>
+            <th class="text-center">Valor médio</th>
+            <th class="text-center">Rentabilidade</th>
+            <th class="text-center">Rentabilidade média</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-ret>
+          <tr>
+            <td class="text-center">{{ ret.month }}</td>
+            <td class="text-center">{{ ret.total | currency: 'BRL' }}</td>
+            <td class="text-center">{{ ret.dividend_total | currency: 'BRL' }}</td>
+            <td class="text-center">{{ ret.total_medium_price | currency: 'BRL' }}</td>
+            <td class="text-center">{{ ret.rentability }}</td>
+            <td class="text-center">{{ ret.rentability_medium_price }}</td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+  </div>
+
+  <div class="card">
+    <!-- trazer a variação comparada ao preço medio -->
+    <strong class="text-lg">Variações de valores</strong>
+
+    <div class="w-full mt-5">
+      <p-table [value]="variationList" styleClass="p-datatable-gridlines p-datatable-striped">
+        <ng-template pTemplate="header">
+          <tr>
+            <th class="text-center">Produto</th>
+            <th class="text-center">Quantidade</th>
+            <th class="text-center">Classe</th>
+            <th class="text-center">Preço médio</th>
+            <th class="text-center">Cotação atual</th>
+            <th class="text-center">Total investido</th>
+            <th class="text-center">Patrimônio atual</th>
+            <th class="text-center">Patrimônio cot. atual</th>
+            <th class="text-center">Rentabilidade</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-variations>
+          <tr>
+            <td class="text-center">{{ variations.cod }}</td>
+            <td class="text-center">{{ variations.qtd }}</td>
+            <td class="text-center">{{ variations.type }}</td>
+            <td class="text-center">{{ variations.medium_price | currency: 'BRL' }}</td>
+            <td class="text-center">{{ variations.curr_price | currency: 'BRL' }}</td>
+            <td class="text-center">{{ variations.total_invest | currency: 'BRL' }}</td>
+            <td class="text-center">{{ variations.current_patrimony | currency: 'BRL' }}</td>
+            <td class="text-center">{{ variations.total_patrimony | currency: 'BRL' }}</td>
+            <td class="text-center">
+              <p-tag
+                [severity]="variations.ralation === '-' ? 'danger' : 'success'"
+                [value]="variations.percent"
+              />
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+  </div>
+
+  <div class="card">
+    <span class="flex justify-content-between align-items-center">
+      <strong class="text-lg">Comparação dividendos ano</strong>
+      <p-dropdown
+        [(ngModel)]="selectedYear"
+        [options]="yearsList"
+        optionLabel="label"
+        optionValue="value"
+        (onChange)="setYear()"
+      />
+    </span>
+
+    <div class="max-w-full overflow-hidden">
+      <apx-chart
+        #lineChart
+        [series]="chartAportsOptions.series"
+        [chart]="chartAportsOptions.chart"
+        [xaxis]="chartAportsOptions.xaxis"
+        [yaxis]="chartAportsOptions.yaxis"
+        [stroke]="chartAportsOptions.stroke"
+        [dataLabels]="chartAportsOptions.dataLabels"
+        [markers]="chartAportsOptions.markers"
+        [plotOptions]="chartAportsOptions.plotOptions"
+        [legend]="chartAportsOptions.legend"
+        [grid]="chartAportsOptions.grid"
+        *ngIf="!rentLoading && (walletService.activeTab$ | async) === 2"
+      >
+      </apx-chart>
+    </div>
+  </div>
+</div>

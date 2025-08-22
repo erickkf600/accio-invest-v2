@@ -1,1 +1,88 @@
-<p>split works!</p>
+<section class="flex flex-column">
+  <button
+    pButton
+    icon="pi pi-times"
+    [rounded]="true"
+    [text]="true"
+    severity="danger"
+    (click)="close()"
+    class="ml-auto"
+  ></button>
+
+  <form [formGroup]="buildFormGroup" (ngSubmit)="submitForm()" class="px-5">
+    <div class="p-fluid p-formgrid grid">
+      <input-autocomplete
+        class="field col-12 md:col-4 mb-0"
+        [options]="movimentsService.assetsList$.asObservable() | async"
+      >
+        <label htmlFor="cod" label>Cód. Ativo</label>
+        <input pInputText id="cod" type="text" formControlName="cod" inputUpperCase #inputRef />
+      </input-autocomplete>
+      <div class="field col-12 md:col-4 mb-0">
+        <label htmlFor="opDate">Data da operação</label>
+        <p-inputMask formControlName="date_operation" mask="99/99/9999" inputId="opDate" />
+      </div>
+
+      <div class="field col-12 md:col-4 mb-0">
+        <label>Tipo</label>
+        <p-dropdown
+          [options]="assetTypes"
+          formControlName="type"
+          optionValue="value"
+          optionLabel="label"
+        />
+      </div>
+
+      <div class="field col-12 md:col-4 mb-0">
+        <label>Fator</label>
+        <p-dropdown
+          [options]="factors"
+          formControlName="factor"
+          optionValue="value"
+          optionLabel="label"
+        />
+      </div>
+
+      <div class="field col-12 md:col-4 mb-0">
+        <label htmlFor="from">De</label>
+        <p-inputNumber
+          formControlName="from"
+          inputId="from"
+          [step]="1"
+          [min]="0"
+          [useGrouping]="false"
+        />
+      </div>
+      <div class="field col-12 md:col-4 mb-0">
+        <label htmlFor="to">Para</label>
+        <p-inputNumber
+          formControlName="to"
+          inputId="to"
+          [step]="1"
+          [min]="0"
+          [useGrouping]="false"
+        />
+      </div>
+
+      <div class="field col-12 mb-0">
+        <label htmlFor="obs">Observações</label>
+        <textarea rows="5" cols="30" pInputTextarea formControlName="obs"></textarea>
+      </div>
+    </div>
+
+    <div class="mt-4 flex justify-content-center">
+      <p-button
+        [label]="
+          !(movimentsService.editContent$.asObservable() | async)
+            ? 'Adicionar Alteração'
+            : 'Editar Alteração'
+        "
+        severity="contrast"
+        [outlined]="true"
+        [disabled]="buildFormGroup.invalid"
+        type="submit"
+        [loading]="savingLoader"
+      />
+    </div>
+  </form>
+</section>

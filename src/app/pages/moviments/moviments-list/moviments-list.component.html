@@ -96,14 +96,17 @@
               class="icon-info accio-table__action cursor-pointer"
               (click)="showObsModal = true"
               [disabled]="!item.obs"
+              type="button"
             ></button>
             <button
               class="icon-edit accio-table__action cursor-pointer"
               (click)="openEditor(item)"
+              type="button"
             ></button>
             <button
               class="icon-trash-2 accio-table__action cursor-pointer"
-              (click)="deleteMovement($event, item.id)"
+              (click)="deleteMovement($event, item)"
+              type="button"
             ></button>
           </span>
         </td>

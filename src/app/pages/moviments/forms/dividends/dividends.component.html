@@ -54,17 +54,10 @@
             <label htmlFor="qtd">Quantidade</label>
             <p-inputNumber
               formControlName="qtd"
-              [showButtons]="true"
-              buttonLayout="horizontal"
               inputId="qtd"
-              spinnerMode="horizontal"
               [step]="1"
               [min]="0"
               [useGrouping]="false"
-              decrementButtonClass="p-button-secondary p-button-outlined input-action-button input-action-button--remove"
-              incrementButtonClass="p-button-secondary p-button-outlined input-action-button input-action-button--add"
-              incrementButtonIcon="pi pi-plus"
-              decrementButtonIcon="pi pi-minus"
             />
           </div>
           <div class="field col-12 md:col-3 mb-0 realtive">
@@ -107,17 +100,18 @@
       />
     </div>
 
-    <p-button
-      [label]="
-        !(movimentsService.editContent$.asObservable() | async)
-          ? 'Adicionar Dividendo'
-          : 'Editar Dividendo'
-      "
-      severity="contrast"
-      [outlined]="true"
-      [disabled]="buildFormGroup.invalid"
-      type="submit"
-      styleClass="mt-4 mx-auto block"
-    />
+    <div class="mt-4 flex justify-content-center">
+      <p-button
+        [label]="
+          !(movimentsService.editContent$.asObservable() | async)
+            ? 'Adicionar Dividendo'
+            : 'Editar Dividendo'
+        "
+        severity="contrast"
+        [outlined]="true"
+        [disabled]="buildFormGroup.invalid"
+        type="submit"
+      />
+    </div>
   </form>
 </section>

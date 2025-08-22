@@ -6,6 +6,7 @@ import { Resume, resume } from './interface/resume.interface'
 import { HomeService } from './service/home.service'
 import { CalendarEvent } from 'angular-calendar'
 import { addHours, endOfMonth, format, parseISO, startOfDay, startOfMonth } from 'date-fns'
+import { MONTH_NAMES_SHORT } from '@mocks/monthNames'
 
 @Component({
   selector: 'app-home',
@@ -62,7 +63,19 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   solidColor1 = '#00034d'
   solidColor2 = '#1c1c1c'
-  monthNames = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez']
+  monthNames = MONTH_NAMES_SHORT
+  comparisonType = [
+    {
+      label: 'Preço de compra',
+      value: 'preco_compra',
+    },
+    {
+      label: 'Preço médio',
+      value: 'preco_medio',
+    },
+  ]
+  comparisonSelected = 'preco_compra'
+  cdiComparisonContent: any[] = []
 
   constructor(
     private homeService: HomeService,
@@ -117,6 +130,7 @@ export class HomeComponent implements OnInit, OnDestroy {
         .subscribe({
           next: (res: any) => {
             this.creatingCDIChart(res)
+            this.cdiComparisonContent = res
           },
           error: err => {
             this.messageService.add({
@@ -201,6 +215,7 @@ export class HomeComponent implements OnInit, OnDestroy {
         value: resume.patrimony,
         icon: 'pi-dollar',
         iconColor: 'purple',
+        help: 'Valor referente a cotação atual',
       },
     ]
   }
@@ -254,12 +269,12 @@ export class HomeComponent implements OnInit, OnDestroy {
         {
           name: 'Ano anterior',
           data: content[0].map((el: any) => el.valor),
-          color: this.solidColor1,
+          color: this.solidColor2,
         },
         {
           name: 'Ano atual',
           data: content[1].map((el: any) => el.valor),
-          color: this.solidColor2,
+          color: this.solidColor1,
         },
       ],
       dataLabels: {
@@ -293,7 +308,7 @@ export class HomeComponent implements OnInit, OnDestroy {
         },
         {
           name: 'Carteira',
-          data: content[1].map((d: any) => d.valor),
+          data: content[1].map((d: any) => d[this.comparisonSelected]),
           color: this.solidColor2,
         },
       ],
@@ -345,6 +360,17 @@ export class HomeComponent implements OnInit, OnDestroy {
   setChartCDIYear() {
     this.populateCdiChart(this.selectedCDiYear)
   }
+
+  setCharCDIComparison(chart: ChartComponent) {
+    chart.updateSeries(
+      [
+        { data: this.cdiComparisonContent[0].map((d: any) => d.valor) },
+        { data: this.cdiComparisonContent[1].map((d: any) => d[this.comparisonSelected]) },
+      ],
+      true,
+    )
+  }
+
   setAportYear() {
     this.populateAportsChart(this.selectedAportsYear)
   }
