@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core'
 import { MONTH_NAMES_SHORT } from '@mocks/monthNames'
 import { Subscription, finalize } from 'rxjs'
 import { WalletService } from '../service/wallet.service'
-import { MessageService } from 'primeng/api'
+import { ConfirmationService, MessageService } from 'primeng/api'
 import _, { concat } from 'lodash'
 
 @Component({
@@ -19,29 +19,43 @@ export class ProventsComponent implements OnInit, OnDestroy {
   proventsList: any[] = []
   public composition: any[] = []
   monthNames = MONTH_NAMES_SHORT
+  selectedProvents: any[] = []
+  savingLoader = false
+
+  yearsList: { label: number; value: number }[] = []
+  selectedYear = new Date().getFullYear()
   constructor(
     public walletService: WalletService,
     private messageService: MessageService,
+    private confirmationService: ConfirmationService,
   ) {}
 
   ngOnInit(): void {
-    this.walletRent()
+    this.walletRent(this.selectedYear)
   }
 
   ngOnDestroy() {
     this.subscriptions.forEach(s => s.unsubscribe())
   }
 
-  private walletRent() {
+  private walletRent(year: number) {
     this.subscriptions.push(
       this.walletService
-        .getRentability()
+        .getRentability(year)
         .pipe(finalize(() => (this.rentLoading = false)))
         .subscribe({
           next: (res: any) => {
             this.composition = res.composition
             this.createDonutChart()
             this.createColumnChart(res)
+
+            this.yearsList = Array.from(
+              { length: new Date().getFullYear() - res.startYear + 1 },
+              (_, index) => {
+                const year = res.startYear + index
+                return { label: year, value: year }
+              },
+            )
           },
           error: err => {
             this.messageService.add({
@@ -82,21 +96,20 @@ export class ProventsComponent implements OnInit, OnDestroy {
   }
 
   private createColumnChart(content: any) {
-    const merged = concat(
-      content.payed.map((i: any) => ({ ...i, status: 'payed' })),
-      content.expected.map((i: any) => ({ ...i, status: 'expected' })),
-    )
-    const grouped = _(merged)
+    const grouped = _(content.earnings)
       .groupBy(i => `${i.month_ref}-${i.year}`)
-      .map((items, key) => ({
-        month_ref: items[0].month_ref,
-        year: items[0].year,
-        month_name: this.monthNames[items[0].month_ref - 1],
-        total: parseFloat(_.sumBy(items, 'total').toFixed(2)),
-        items,
-      }))
+      .map((items, key) => {
+        const filteredItems = items.filter(item => item.qtdAtDate > 0)
+        return {
+          month_ref: items[0].month_ref,
+          year: items[0].year,
+          month_name: this.monthNames[items[0].month_ref - 1],
+          total: parseFloat(_.sumBy(filteredItems, 'totalReceived').toFixed(2)),
+          items: filteredItems,
+        }
+      })
       .value()
-
+      .reverse()
     this.chartAportsOptions = {
       chart: {
         type: 'bar',
@@ -108,9 +121,17 @@ export class ProventsComponent implements OnInit, OnDestroy {
         toolbar: { show: false },
         zoom: { enabled: false },
         events: {
-          dataPointSelection: (_event: any, _chartContext: any, config: any) => {
-            const { dataPointIndex } = config
-            this.proventsList = grouped[dataPointIndex].items
+          dataPointSelection: (_event: any, chartContext: any, config: any) => {
+            const { dataPointIndex, seriesIndex } = config
+            const value = chartContext.w.globals.series[seriesIndex][dataPointIndex]
+            if (value) {
+              this.proventsList = grouped[dataPointIndex].items.map((p, i) => ({
+                id: p.month_ref + p.cod + i + p.payment_date.replace(' ', '').replace('/', ''),
+                ...p,
+              }))
+            } else {
+              this.proventsList = []
+            }
           },
         },
       },
@@ -147,5 +168,61 @@ export class ProventsComponent implements OnInit, OnDestroy {
       markers: { show: false },
       legend: { show: false },
     }
+  }
+
+  setYear() {
+    this.walletRent(this.selectedYear)
+    this.proventsList = []
+  }
+
+  registerProvents(event: Event) {
+    this.confirmationService.confirm({
+      target: event.target as EventTarget,
+      message: 'Tem certeza que deseja cadastrar?',
+      acceptLabel: 'Sim',
+      rejectLabel: 'Não',
+      acceptButtonStyleClass: 'p-button-contrast',
+      rejectButtonStyleClass: 'p-button-outlined p-button-contrast',
+      accept: () => {
+        const payload = this.selectedProvents.map(el => ({
+          cod: el.cod,
+          date_operation: el.payment_date,
+          qtd: el.qtdAtDate,
+          type_operation: 3,
+          type: el.type.id,
+          unity_value: el.value,
+          fee: 0,
+          obs: '',
+          total: el.totalReceived,
+        }))
+        this.savingLoader = true
+        this.subscriptions.push(
+          this.walletService
+            .saveProvent(payload)
+            .pipe(finalize(() => (this.savingLoader = false)))
+            .subscribe({
+              next: () => {
+                this.selectedProvents = []
+                this.walletRent(this.selectedYear)
+                this.messageService.add({
+                  severity: 'success',
+                  summary: 'Sucesso',
+                  detail: 'Dividendo cadastrado',
+                })
+              },
+              error: err => {
+                this.messageService.add({
+                  severity: 'error',
+                  summary: 'Error',
+                  detail: err?.error?.message,
+                })
+              },
+            }),
+        )
+      },
+      reject: () => {
+        this.confirmationService.close()
+      },
+    })
   }
 }

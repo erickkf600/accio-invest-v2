@@ -22,6 +22,7 @@ export class RentabilityComponent implements OnInit, OnDestroy {
   dividendList: any[] = []
 
   yearsList: { label: number; value: number }[] = []
+  monthFilterContent: { label: number; value: number }[] = []
   selectedYear = new Date().getFullYear()
   solidColor1 = '#00034d'
   solidColor2 = '#1c1c1c'
@@ -52,6 +53,10 @@ export class RentabilityComponent implements OnInit, OnDestroy {
             this.variationList = res.variations
             this.dividendList = res.dividends.content
             this.createColumnChart(res.dividends.content)
+            this.monthFilterContent = this.patrimonyRent.map(el => ({
+              label: el.month,
+              value: el.month,
+            }))
             this.yearsList = Array.from(
               { length: new Date().getFullYear() - res.dividends.startYear + 1 },
               (_, index) => {

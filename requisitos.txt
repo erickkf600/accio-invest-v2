@@ -22,17 +22,20 @@ MOVIMENTAÇÕES - print no google fotos
 -validar criação de job que cadastrar automaticamente quando abre a aplicação (na parte da agenda: validar se a data do pagamento é maior ou igual ao atual)
 
 CARTEIRA - print no google fotos
-- vai ter cards indicando o total médio (soma dos preços medios), total atual (soma dos preços atuais), total rendimento (soma dos rendimentos)
-- vai ter a lista de ativos gráfico de proventos igual da b3 que ao clicar no mês aparece a lista (mês atual como default),
-- o patrimônio x ganho e o Variação da ultima compra vao virar "Resumo de rendimento" com o preço médio atual, porcentagem de rendimento pm e rendimento com proventos colunas (cod, qtd, p. atual, p médio, total pm, total invest., total atual). o header da tablea precisa ser fixo, a tabela paginada e com filter
-- (verificar logica) *fazer a rentabilidade baseado na some de todos os preços médios* ou adicionar um camp no form de dividendos para inserir o dividend yeld e calcular a media a partir de todos do mês
+✅ vai ter cards indicando o total médio (soma dos preços medios), total atual (soma dos preços atuais), total rendimento (soma dos rendimentos)
+✅ vai ter a lista de ativos gráfico de proventos igual da b3 que ao clicar no mês aparece a lista (mês atual como default),
+✅ o patrimônio x ganho e o Variação da ultima compra vao virar "Resumo de rendimento" com o preço médio atual, porcentagem de  rendimento pm e rendimento com proventos colunas (cod, qtd, p. atual, p médio, total pm, total invest., total atual).
+✅ o header da tablea precisa ser fixo, a tabela paginada e com filter
+
 
 
 RELATÓRIOS - print no google fotos
 - nova pagina para relatórios, no side menu vai ter sub menu igual q tinha no de ferramentas mas deve abrir somente com o click e deve ser absolute (poder baixar pdf)
 - itens do submenu (His de preço médio, His de aports, His de dividendos, His de vendas) (talvez no histórico de vendar exibir a porcentagem e valor de lucro ou perda)
-- Adicionar relatório de aluguel de ações, criar um novo formato de cadastro para registro disso
-adicionar seção para subir o pdf de nota de corretagem e exibir
-- adicionar a lista de aportes
+- Adicionar relatório de aluguel de ações (podendo baixar)
+- adicionar lista para venda (podendo baixar)
+- adicionar lista para proventos (podendo baixar)
+- adicionar a lista de aportes com o valor atual, o valor que paguei e o preço medio (podendo baixar)
+- adicionar seção para subir o pdf de nota de corretagem e exibir????
 
 

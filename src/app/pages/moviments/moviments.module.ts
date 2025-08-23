@@ -25,6 +25,9 @@ import { ConfirmPopupModule } from 'primeng/confirmpopup'
 import { ConfirmationService } from 'primeng/api'
 import { WalletService } from '../wallet/service/wallet.service'
 import { InputAutocompleteComponent } from '@components/input-autocomplete/input-autocomplete.component'
+import { CalendarModule } from 'primeng/calendar'
+import { OverlayPanelModule } from 'primeng/overlaypanel'
+
 @NgModule({
   declarations: [
     MovimentsComponent,
@@ -52,6 +55,8 @@ import { InputAutocompleteComponent } from '@components/input-autocomplete/input
     InputTextareaModule,
     ConfirmPopupModule,
     InputAutocompleteComponent,
+    CalendarModule,
+    OverlayPanelModule,
   ],
   providers: [MovimentsService, ConfirmationService, WalletService],
 })

@@ -5452,6 +5452,11 @@ primeicons@6.0.1:
   resolved "https://registry.npmjs.org/primeicons/-/primeicons-6.0.1.tgz"
   integrity sha512-KDeO94CbWI4pKsPnYpA1FPjo79EsY9I+M8ywoPBSf9XMXoe/0crjbUK7jcQEDHuc0ZMRIZsxH3TYLv4TUtHmAA==
 
+primelocale@^2.1.5:
+  version "2.1.5"
+  resolved "https://registry.npmjs.org/primelocale/-/primelocale-2.1.5.tgz"
+  integrity sha512-FqdKvMTaqpbc7Kq8NbWtREcT6Xl4cuRLKh8MDyuCGtOLNiR8nPMBWnUhsAf06IVKav9u7chrMmvNjH1xgjWouQ==
+
 primeng@^17.18.15:
   version "17.18.15"
   resolved "https://registry.npmjs.org/primeng/-/primeng-17.18.15.tgz"

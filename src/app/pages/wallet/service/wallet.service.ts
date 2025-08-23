@@ -23,8 +23,8 @@ export class WalletService {
     return this.cache$
   }
 
-  getRentability(): Observable<any[]> {
-    return this.http.get<any[]>(`${environment.apiUrl}/wallet/rentability/2025`)
+  getRentability(year: number): Observable<any[]> {
+    return this.http.get<any[]>(`${environment.apiUrl}/wallet/rentability/${year}`)
   }
 
   getPatrimonyGain(): Observable<any[]> {
@@ -35,5 +35,18 @@ export class WalletService {
   }
   geDividendsComparison(year: string | number): Observable<any[]> {
     return this.http.get<any[]>(`${environment.apiUrl}/wallet/dividends-graph/${year}`)
+  }
+
+  saveProvent(data: any): Observable<Object> {
+    return this.http.post(`${environment.apiUrl}/moviments`, data)
+  }
+  cacheDividends$: Observable<any[]>
+  searchDividends(start: string, end: string): Observable<any[]> {
+    if (!this.cacheDividends$) {
+      this.cacheDividends$ = this.http
+        .get<any[]>(`${environment.apiUrl}/wallet/dividends-list?start=${start}&end=${end}`)
+        .pipe(shareReplay(1))
+    }
+    return this.cacheDividends$
   }
 }

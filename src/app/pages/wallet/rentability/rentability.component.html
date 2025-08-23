@@ -3,23 +3,67 @@
     <strong class="text-lg">Rentabilidade do patrimônio</strong>
 
     <div class="w-full mt-5">
-      <p-table [value]="patrimonyRent" styleClass="p-datatable-gridlines p-datatable-striped">
+      <p-table
+        [value]="patrimonyRent"
+        styleClass="p-datatable-gridlines p-datatable-striped"
+        [rows]="5"
+        [paginator]="true"
+        [rowsPerPageOptions]="[5, 10, 20, 30]"
+        [showCurrentPageReport]="true"
+        [showPageLinks]="false"
+        [showFirstLastIcon]="false"
+        [globalFilterFields]="['month']"
+        currentPageReportTemplate="{first} - {last} de {totalRecords}"
+      >
         <ng-template pTemplate="header">
           <tr>
-            <th class="text-center">Mês</th>
+            <th class="text-center">
+              Mês
+              <p-columnFilter
+                field="month"
+                matchMode="in"
+                display="menu"
+                [showMatchModes]="false"
+                [showOperator]="false"
+                [showAddButton]="false"
+                [showButtons]="false"
+              >
+                <ng-template pTemplate="header">
+                  <div class="px-3 pt-3 pb-0">
+                    <span class="font-bold">Filtrar pela data</span>
+                  </div>
+                </ng-template>
+                <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+                  <p-multiSelect
+                    [ngModel]="value"
+                    [options]="monthFilterContent"
+                    optionLabel="label"
+                    appendTo="body"
+                    (onChange)="filter($event.value)"
+                    styleClass="rentability__filter-month"
+                  />
+                  <button
+                    pButton
+                    label="Limpar"
+                    class="p-button-text mt-2"
+                    (click)="filter('')"
+                  ></button>
+                </ng-template>
+              </p-columnFilter>
+            </th>
             <th class="text-center">Patrimônio</th>
+            <th class="text-center">Patrimônio P. médio</th>
             <th class="text-center">Proventos pagos</th>
-            <th class="text-center">Valor médio</th>
             <th class="text-center">Rentabilidade</th>
-            <th class="text-center">Rentabilidade média</th>
+            <th class="text-center">Rentabilidade P. médio</th>
           </tr>
         </ng-template>
         <ng-template pTemplate="body" let-ret>
           <tr>
             <td class="text-center">{{ ret.month }}</td>
             <td class="text-center">{{ ret.total | currency: 'BRL' }}</td>
+            <td class="text-center">{{ ret.total_medium_price * ret.qtd | currency: 'BRL' }}</td>
             <td class="text-center">{{ ret.dividend_total | currency: 'BRL' }}</td>
-            <td class="text-center">{{ ret.total_medium_price | currency: 'BRL' }}</td>
             <td class="text-center">{{ ret.rentability }}</td>
             <td class="text-center">{{ ret.rentability_medium_price }}</td>
           </tr>

@@ -1,20 +1,53 @@
 <section class="flex flex-column">
-  <button
-    pButton
-    icon="pi pi-times"
-    [rounded]="true"
-    [text]="true"
-    severity="danger"
-    (click)="close()"
-    class="ml-auto"
-  ></button>
+  <span class="flex align-items-center justify-content-between mt-2 mb-5">
+    <span>
+      <p-overlayPanel #calendarRef>
+        <p-calendar
+          [(ngModel)]="dateSelection"
+          [inline]="true"
+          selectionMode="range"
+          styleClass="last-exams__calendar p-0 border-none"
+          (onSelect)="searchDividends($event, calendarRef)"
+        >
+        </p-calendar>
+      </p-overlayPanel>
+
+      <button
+        pButton
+        label="Buscar dividendos"
+        severity="secondary"
+        icon="pi pi-search"
+        [outlined]="true"
+        size="small"
+        [loading]="searchingDividends"
+        (click)="calendarRef.toggle($event)"
+      ></button>
+    </span>
+    <button
+      pButton
+      icon="pi pi-times"
+      [rounded]="true"
+      [text]="true"
+      severity="danger"
+      (click)="close()"
+    ></button>
+  </span>
 
   <form [formGroup]="buildFormGroup" (ngSubmit)="submitForm()" class="px-5">
     <div class="p-fluid p-formgrid grid">
-      <div class="field col-12 md:col-6 mb-0"></div>
-      <div class="field col-12 md:col-6 mb-0">
+      <div class="field col-12 md:col-4 mb-0"></div>
+      <div class="field col-12 md:col-4 mb-0">
         <label htmlFor="opDate">Data da operação</label>
         <p-inputMask formControlName="date_operation" mask="99/99/9999" inputId="opDate" />
+      </div>
+      <div class="field col-12 md:col-4 mb-0">
+        <label>Tipo de provento</label>
+        <p-dropdown
+          [options]="operationTypes"
+          formControlName="type_operation"
+          optionValue="value"
+          optionLabel="label"
+        />
       </div>
 
       <div

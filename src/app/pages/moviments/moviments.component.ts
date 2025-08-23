@@ -29,7 +29,7 @@ export class MovimentsComponent implements OnInit, OnDestroy {
       },
     },
     {
-      label: 'Dividendos',
+      label: 'Proventos',
       command: () => {
         this.movimentsService.formType.next(3)
       },
@@ -72,6 +72,7 @@ export class MovimentsComponent implements OnInit, OnDestroy {
         )
         .subscribe(res => {
           this.total = res?.sumTotal
+          console.log(res?.res)
           this.tableContent = res?.res
         }),
 
@@ -115,7 +116,7 @@ export class MovimentsComponent implements OnInit, OnDestroy {
             summary: 'Sucesso',
             detail: 'Movimentação registrada',
           })
-          sessionStorage.removeItem(
+          this.movimentsService.removeSessionKey(
             this.sessionsNames[this.movimentsService.formType.getValue() - 1],
           )
           this.movimentsService.formType.next(0)

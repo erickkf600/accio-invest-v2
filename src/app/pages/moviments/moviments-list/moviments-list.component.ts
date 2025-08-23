@@ -146,6 +146,8 @@ export class MovimentsListComponent implements OnDestroy {
 
   openEditor(content: DataEntity) {
     this.movimentsService.editContent$.next(content)
-    this.movimentsService.formType.next(content.type_operation.id)
+    this.movimentsService.formType.next(
+      [3, 5].includes(content.type_operation.id) ? 3 : content.type_operation.id,
+    )
   }
 }

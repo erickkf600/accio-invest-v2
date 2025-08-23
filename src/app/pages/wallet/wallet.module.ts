@@ -14,6 +14,10 @@ import { WalletComponent } from './wallet.component'
 import { ProventsComponent } from './provents/provents.component'
 import { DropdownModule } from 'primeng/dropdown'
 import { FormsModule } from '@angular/forms'
+import { ButtonModule } from 'primeng/button'
+import { ConfirmPopupModule } from 'primeng/confirmpopup'
+import { ConfirmationService } from 'primeng/api'
+import { MultiSelectModule } from 'primeng/multiselect'
 
 @NgModule({
   declarations: [WalletComponent, MyProductsComponent, RentabilityComponent, ProventsComponent],
@@ -27,7 +31,11 @@ import { FormsModule } from '@angular/forms'
     TagModule,
     DropdownModule,
     FormsModule,
+    ButtonModule,
+    ConfirmPopupModule,
+    MultiSelectModule,
+    FormsModule,
   ],
-  providers: [WalletService],
+  providers: [WalletService, ConfirmationService],
 })
 export class WalletModule {}

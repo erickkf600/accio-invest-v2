@@ -19,4 +19,9 @@ export const OPERATION_TYPES = [
     title: 'Desdobramentos',
     full_title: 'Realizar operação de desdobramento',
   },
+  {
+    id: 5,
+    title: 'Aluguel',
+    full_title: 'Rendimento de Aluguel de ações',
+  },
 ]

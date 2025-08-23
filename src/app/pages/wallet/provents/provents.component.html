@@ -39,7 +39,16 @@
   </div>
 
   <div class="card">
-    <strong class="text-lg">Proventos</strong>
+    <span class="flex justify-content-between align-items-center">
+      <strong class="text-lg">Proventos</strong>
+      <p-dropdown
+        [(ngModel)]="selectedYear"
+        [options]="yearsList"
+        optionLabel="label"
+        optionValue="value"
+        (onChange)="setYear()"
+      />
+    </span>
 
     <div class="max-w-full overflow-hidden">
       <apx-chart
@@ -60,31 +69,71 @@
     </div>
 
     <div class="w-full mt-5" *ngIf="proventsList.length">
-      <p-table [value]="proventsList" styleClass="p-datatable-gridlines p-datatable-striped">
+      <p-table
+        [value]="proventsList"
+        styleClass="p-datatable-gridlines p-datatable-striped"
+        [(selection)]="selectedProvents"
+        dataKey="id"
+      >
         <ng-template pTemplate="header">
           <tr>
+            <th style="width: 4rem"><p-tableHeaderCheckbox /></th>
             <th class="text-center">Produto</th>
             <th class="text-center">Tipo</th>
+            <th class="text-center">Quantidade</th>
             <th class="text-center">Valor</th>
             <th class="text-center">Data pagamento</th>
+            <th class="text-center">Classe</th>
             <th class="text-center">Status</th>
           </tr>
         </ng-template>
         <ng-template pTemplate="body" let-dvd>
           <tr>
+            <td>
+              <p-tableCheckbox
+                [value]="dvd"
+                [disabled]="dvd.status !== 'not_registered' || dvd.qtdAtDate <= 0"
+              />
+            </td>
             <td class="text-center">{{ dvd.cod }}</td>
-            <td class="text-center">{{ dvd.type }}</td>
-            <td class="text-center">{{ dvd.total | currency: 'BRL' }}</td>
+            <td class="text-center">{{ dvd.type.title }}</td>
+            <td class="text-center">{{ dvd.qtdAtDate }}</td>
+            <td class="text-center">{{ dvd.totalReceived | currency: 'BRL' }}</td>
             <td class="text-center">{{ dvd.payment_date }}</td>
+            <td class="text-center">{{ dvd.typeOperation.title }}</td>
             <td class="text-center">
               <p-tag
-                [severity]="dvd.status === 'expected' ? 'info' : 'success'"
-                [value]="dvd.status === 'expected' ? 'previsto' : 'pago'"
+                [severity]="
+                  dvd.status === 'not_registered'
+                    ? 'contrast'
+                    : dvd.status === 'rent'
+                      ? 'info'
+                      : 'success'
+                "
+                [value]="
+                  dvd.status === 'not_registered'
+                    ? 'Não cadastrado'
+                    : dvd.status === 'rent'
+                      ? 'Aluguel'
+                      : 'Cadastrado'
+                "
               />
             </td>
           </tr>
         </ng-template>
       </p-table>
+      <div class="mt-4 flex justify-content-end">
+        <p-button
+          label="Cadastrar"
+          severity="contrast"
+          [disabled]="!selectedProvents.length"
+          type="button"
+          [loading]="savingLoader"
+          (click)="registerProvents($event)"
+        />
+      </div>
     </div>
   </div>
 </div>
+
+<p-confirmPopup />
