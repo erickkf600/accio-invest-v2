@@ -1,0 +1,122 @@
+<section class="flex flex-column">
+  <button
+    pButton
+    icon="pi pi-times"
+    [rounded]="true"
+    [text]="true"
+    severity="danger"
+    (click)="close()"
+    class="ml-auto"
+  ></button>
+
+  <form [formGroup]="buildFormGroup" (ngSubmit)="submitForm()" class="px-5">
+    <div class="p-fluid p-formgrid grid">
+      <div class="field col-12 md:col-3 mb-0">
+        <label htmlFor="emissor">Emissor</label>
+        <input pInputText id="emissor" type="text" formControlName="emissor" inputUpperCase />
+      </div>
+
+      <div class="field col-12 md:col-3 mb-0">
+        <label>Tipo de investimento</label>
+        <p-dropdown
+          [options]="investTypes"
+          formControlName="invest_type"
+          optionValue="value"
+          optionLabel="label"
+        />
+      </div>
+
+      <div class="field col-12 md:col-3 mb-0">
+        <label>Tipo de titulo</label>
+        <p-dropdown
+          [options]="titleTypes"
+          formControlName="title_type"
+          optionValue="value"
+          optionLabel="label"
+        />
+      </div>
+
+      <div class="field col-12 md:col-3 mb-0">
+        <label htmlFor="opDate">Data da operação</label>
+        <p-inputMask formControlName="date_operation" mask="99/99/9999" inputId="opDate" />
+      </div>
+
+      <div class="field col-12 md:col-3 mb-0">
+        <span class="flex justify-content-between align-items-center relative mb-1">
+          <label htmlFor="expDate"> Data do vencimento </label>
+          <span class="flex gap-2 align-items-center">
+            <label for="switch" class="text-xs select-none cursor-pointer">liquidez diária</label>
+            <p-inputSwitch
+              formControlName="daily_liquidity"
+              class="check-switch"
+              inputId="switch"
+              (onChange)="setDaily($event)"
+            />
+          </span>
+        </span>
+        <p-inputMask formControlName="date_expiration" mask="99/99/9999" inputId="expDate" />
+      </div>
+
+      <div class="field col-12 md:col-3 mb-0">
+        <label htmlFor="form">Forma</label>
+        <p-dropdown
+          inputId="form"
+          [options]="formTypes"
+          formControlName="form"
+          optionValue="value"
+          optionLabel="label"
+        />
+      </div>
+
+      <div class="field col-12 md:col-3 mb-0">
+        <label htmlFor="index">Indexador</label>
+        <p-dropdown
+          [options]="indexTypes"
+          formControlName="index"
+          optionValue="value"
+          inputId="index"
+          optionLabel="label"
+        />
+      </div>
+      <!-- todo adicionar um boolean se tem importo de renda ou não -->
+
+      <div class="field col-12 md:col-3 mb-0">
+        <label htmlFor="value">Valor</label>
+        <input pInputText id="value" type="text" formControlName="value" [currencyMask]="true" />
+      </div>
+
+      <div class="field col-12 md:col-3 mb-0">
+        <label htmlFor="interest_rate">Taxa de juros</label>
+        <p-inputGroup>
+          <input type="text" id="interest_rate" pInputText formControlName="interest_rate" />
+          <p-inputGroupAddon>%</p-inputGroupAddon>
+        </p-inputGroup>
+      </div>
+
+      <div class="field col-12 md:col-3 mb-0">
+        <label htmlFor="other_cost">Outros custos</label>
+        <input pInputText id="other_cost" type="text" formControlName="other_cost" currencyMask />
+      </div>
+
+      <div class="field col-12 mb-0">
+        <label htmlFor="obd">Observações</label>
+        <textarea rows="5" cols="30" inputId="obs" pInputTextarea formControlName="obs"></textarea>
+      </div>
+    </div>
+
+    <div class="mt-4 flex justify-content-center">
+      <p-button
+        [label]="
+          !(movimentsService.editContent$.asObservable() | async)
+            ? 'Adicionar Renda fixa'
+            : 'Editar Renda fixa'
+        "
+        severity="contrast"
+        [outlined]="true"
+        [disabled]="buildFormGroup.invalid"
+        type="submit"
+        [loading]="savingLoader"
+      />
+    </div>
+  </form>
+</section>

@@ -118,8 +118,11 @@ export class MovimentsListComponent implements OnDestroy {
         const id = content?.split_inplit
           ? `${content.id}?unfold_id=${content?.split_inplit.id}`
           : content.id
+        const method = content?.fixed_income
+          ? this.movimentsService.deleteMovimentationRF(id)
+          : this.movimentsService.deleteMovimentation(id)
 
-        this.movimentsService.deleteMovimentation(id).subscribe({
+        method.subscribe({
           next: () => {
             this.messageService.add({
               severity: 'success',
@@ -147,7 +150,11 @@ export class MovimentsListComponent implements OnDestroy {
   openEditor(content: DataEntity) {
     this.movimentsService.editContent$.next(content)
     this.movimentsService.formType.next(
-      [3, 5].includes(content.type_operation.id) ? 3 : content.type_operation.id,
+      [3, 5].includes(content.type_operation.id)
+        ? 3
+        : content.type.id === 3
+          ? 6
+          : content.type_operation.id,
     )
   }
 }

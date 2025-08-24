@@ -11,12 +11,22 @@ import { WalletService } from '../wallet/service/wallet.service'
 export class MovimentsComponent implements OnInit, OnDestroy {
   public formTypes = this.movimentsService.formType$
   public subscriptions: Subscription[] = []
-  public titles: string[] = ['Adicionar', 'Compra', 'Venda', 'Dividendos', 'Desdobramento']
+  public titles: string[] = [
+    'Adicionar',
+    'Compra',
+    'Venda',
+    'Dividendos',
+    'Desdobramento',
+    '',
+    'Renda fixa',
+  ]
   public sessionsNames = [
     'pre-register-movimentacao',
     'pre-register-venda',
     'pre-register-dividendos',
     'pre-register-desdo',
+    '',
+    'pre-register-renda-fixa',
   ]
   public total = 0
   public tableContent: any
@@ -26,6 +36,12 @@ export class MovimentsComponent implements OnInit, OnDestroy {
       label: 'Compra',
       command: () => {
         this.movimentsService.formType.next(1)
+      },
+    },
+    {
+      label: 'Renda fixa',
+      command: () => {
+        this.movimentsService.formType.next(6)
       },
     },
     {
@@ -72,7 +88,6 @@ export class MovimentsComponent implements OnInit, OnDestroy {
         )
         .subscribe(res => {
           this.total = res?.sumTotal
-          console.log(res?.res)
           this.tableContent = res?.res
         }),
 

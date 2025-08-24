@@ -19,6 +19,7 @@
 
   <div [class.card]="formTypes | async">
     <purchase-form *ngIf="(formTypes | async) === 1" />
+    <fixed-income-form *ngIf="(formTypes | async) === 6" />
     <dividends-form *ngIf="(formTypes | async) === 3" />
     <sell-form *ngIf="(formTypes | async) === 2" />
     <split-form *ngIf="(formTypes | async) === 4" />

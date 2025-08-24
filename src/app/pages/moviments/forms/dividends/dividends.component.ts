@@ -22,6 +22,7 @@ export class DividendsComponent implements OnInit {
   public hasCurrencyMask2: boolean = true
   dateSelection: Date[] = []
   searchingDividends = false
+  isEdit = false
   assetTypes: any[] = ASSETS_TYPES.map(el => ({ value: el.id, label: el.title }))
   operationTypes: any[] = OPERATION_TYPES.filter(el => el.id === 3 || el.id === 5).map(el => ({
     value: el.id,
@@ -46,6 +47,7 @@ export class DividendsComponent implements OnInit {
       .subscribe(res => {
         if (res) {
           this._buildFormEdit(res)
+          this.isEdit = true
         } else {
           this._buildingForm()
         }
@@ -162,6 +164,19 @@ export class DividendsComponent implements OnInit {
           .pipe(finalize(() => (this.searchingDividends = false)))
           .subscribe({
             next: (res: any[]) => {
+              if (!res.length) {
+                this.messageService.add({
+                  severity: 'info',
+                  summary: 'Alerta',
+                  detail: 'Não foram encontrados dividendos novos neste período.',
+                })
+                return
+              }
+              this.messageService.add({
+                severity: 'success',
+                summary: 'Sucesso',
+                detail: 'Lista de dividendos encontrada',
+              })
               const payload = res.map((el: any, i: number) => {
                 el.unity_value = parseCurrency(el.unity_value)
                 const opType = this.operationTypes.find(opt => opt.value === el.type_operation)
@@ -180,7 +195,6 @@ export class DividendsComponent implements OnInit {
                   total: +el.value * el.qtdAtDate,
                 }
               })
-              // TODO TIRAR O BOTÃO NA EDIÇÃO
               this.movimentsService.saveInSession('pre-register-dividendos', payload)
             },
             error: () => {

@@ -1,4 +1,12 @@
-Fazer responsivo - validar como subir pro ambiente ver os exemplos de dash no pinterest
+Logica para renda fixa (basear no investidor 10)
+- criar um novo form nova tabela para renda fixa
+- Manter na lista de movimentações
+cols da table: Emissor, tipo(LCI, LCA, CDB, CRI), Forma(pre-fixado, pros-fixado), indexador(cdi, ipca, selic),
+date_operation, total, liquidez diaria(checkbox), data vencimento()se for liquidez diriam deve ser bloqueado, outros custos(opcional (tavlez adicionar o ir))
+rever como é feito o calculo de rentabilidade baseando no app da xp (pegar o valor do cdi no mes e calcular com a rente tentar fazer tudo automatico)
+
+
+
 
 Paginas:
 
@@ -37,5 +45,6 @@ RELATÓRIOS - print no google fotos
 - adicionar lista para proventos (podendo baixar)
 - adicionar a lista de aportes com o valor atual, o valor que paguei e o preço medio (podendo baixar)
 - adicionar seção para subir o pdf de nota de corretagem e exibir????
+- adicionar lista preço médio histórico (podendo baixar)
 
 

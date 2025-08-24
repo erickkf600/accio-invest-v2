@@ -1,17 +1,13 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule } from '@angular/common'
+import { NgModule } from '@angular/core'
 
-import { ReportsRoutingModule } from './reports-routing.module';
-import { ReportsComponent } from './reports.component';
-
+import { ButtonModule } from 'primeng/button'
+import { ReportsRoutingModule } from './reports-routing.module'
+import { ReportsComponent } from './reports.component'
+import { TabsModule } from '@components/tabs/tabs.module'
 
 @NgModule({
-  declarations: [
-    ReportsComponent
-  ],
-  imports: [
-    CommonModule,
-    ReportsRoutingModule
-  ]
+  declarations: [ReportsComponent],
+  imports: [CommonModule, ReportsRoutingModule, ButtonModule, TabsModule],
 })
-export class ReportsModule { }
+export class ReportsModule {}

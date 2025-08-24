@@ -1,27 +1,29 @@
 <section class="flex flex-column">
   <span class="flex align-items-center justify-content-between mt-2 mb-5">
     <span>
-      <p-overlayPanel #calendarRef>
-        <p-calendar
-          [(ngModel)]="dateSelection"
-          [inline]="true"
-          selectionMode="range"
-          styleClass="last-exams__calendar p-0 border-none"
-          (onSelect)="searchDividends($event, calendarRef)"
-        >
-        </p-calendar>
-      </p-overlayPanel>
+      <ng-container *ngIf="!isEdit">
+        <p-overlayPanel #calendarRef>
+          <p-calendar
+            [(ngModel)]="dateSelection"
+            [inline]="true"
+            selectionMode="range"
+            styleClass="last-exams__calendar p-0 border-none"
+            (onSelect)="searchDividends($event, calendarRef)"
+          >
+          </p-calendar>
+        </p-overlayPanel>
 
-      <button
-        pButton
-        label="Buscar dividendos"
-        severity="secondary"
-        icon="pi pi-search"
-        [outlined]="true"
-        size="small"
-        [loading]="searchingDividends"
-        (click)="calendarRef.toggle($event)"
-      ></button>
+        <button
+          pButton
+          label="Buscar dividendos"
+          severity="secondary"
+          icon="pi pi-search"
+          [outlined]="true"
+          size="small"
+          [loading]="searchingDividends"
+          (click)="calendarRef.toggle($event)"
+        ></button>
+      </ng-container>
     </span>
     <button
       pButton

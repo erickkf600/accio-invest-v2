@@ -27,7 +27,10 @@ import { WalletService } from '../wallet/service/wallet.service'
 import { InputAutocompleteComponent } from '@components/input-autocomplete/input-autocomplete.component'
 import { CalendarModule } from 'primeng/calendar'
 import { OverlayPanelModule } from 'primeng/overlaypanel'
-
+import { FixedIncomeComponent } from './forms/fixed-income/fixed-income.component'
+import { InputSwitchModule } from 'primeng/inputswitch'
+import { InputGroupModule } from 'primeng/inputgroup'
+import { InputGroupAddonModule } from 'primeng/inputgroupaddon'
 @NgModule({
   declarations: [
     MovimentsComponent,
@@ -36,6 +39,7 @@ import { OverlayPanelModule } from 'primeng/overlaypanel'
     PurchaseComponent,
     SellComponent,
     SplitComponent,
+    FixedIncomeComponent,
   ],
   imports: [
     CommonModule,
@@ -57,6 +61,9 @@ import { OverlayPanelModule } from 'primeng/overlaypanel'
     InputAutocompleteComponent,
     CalendarModule,
     OverlayPanelModule,
+    InputSwitchModule,
+    InputGroupModule,
+    InputGroupAddonModule,
   ],
   providers: [MovimentsService, ConfirmationService, WalletService],
 })

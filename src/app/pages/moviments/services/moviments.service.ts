@@ -11,7 +11,7 @@ export class MovimentsService {
   public editContent$: BehaviorSubject<DataEntity> = new BehaviorSubject(null as any)
   constructor(private http: HttpClient) {}
   cache$: Observable<any>
-  public formType: BehaviorSubject<number> = new BehaviorSubject<number>(3)
+  public formType: BehaviorSubject<number> = new BehaviorSubject<number>(0)
   readonly formType$: Observable<number> = this.formType.asObservable()
 
   getMoviments(page: number, limit: number, pageChange: boolean = false): Observable<Object> {
@@ -78,5 +78,17 @@ export class MovimentsService {
 
   deleteMovimentation(id: string | number): Observable<Object> {
     return this.http.delete(`${environment.apiUrl}/moviments/${id}`)
+  }
+
+  saveMovimentsRF(data: any): Observable<Object> {
+    return this.http.post(`${environment.apiUrl}/moviments/fixed-incoming`, data)
+  }
+
+  patchMovimentsRF(data: DataEntity, id: number): Observable<Object> {
+    return this.http.patch(`${environment.apiUrl}/moviments/fixed-incoming/${id}`, data)
+  }
+
+  deleteMovimentationRF(id: string | number): Observable<Object> {
+    return this.http.delete(`${environment.apiUrl}/moviments/fixed-incoming/${id}`)
   }
 }

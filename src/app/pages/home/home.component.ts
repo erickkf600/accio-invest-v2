@@ -1,12 +1,12 @@
 import { Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core'
+import { MONTH_NAMES_SHORT } from '@mocks/monthNames'
+import { CalendarEvent } from 'angular-calendar'
+import { endOfMonth, format, formatISO, parse, parseISO, startOfMonth } from 'date-fns'
 import { ChartComponent } from 'ng-apexcharts'
 import { MessageService } from 'primeng/api'
 import { Subscription, finalize } from 'rxjs'
 import { Resume, resume } from './interface/resume.interface'
 import { HomeService } from './service/home.service'
-import { CalendarEvent } from 'angular-calendar'
-import { addHours, endOfMonth, format, parseISO, startOfDay, startOfMonth } from 'date-fns'
-import { MONTH_NAMES_SHORT } from '@mocks/monthNames'
 
 @Component({
   selector: 'app-home',
@@ -42,24 +42,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   selectedEvolutionType: 'year' | 'month' = 'year'
   selectedCDiYear = new Date().getFullYear()
   selectedAportsYear = new Date().getFullYear()
-  nextPayments: CalendarEvent[] = [
-    {
-      start: addHours(startOfDay(new Date()), 14),
-      title: `Dividendos`,
-      meta: {
-        cod: [
-          {
-            tag: 'MXRF11',
-            value: 0.5,
-          },
-          {
-            tag: 'HGLG11',
-            value: 2.0,
-          },
-        ],
-      },
-    },
-  ]
+  nextPayments: CalendarEvent[] = []
 
   solidColor1 = '#00034d'
   solidColor2 = '#1c1c1c'
@@ -171,7 +154,10 @@ export class HomeComponent implements OnInit, OnDestroy {
       this.homeService.getEarningSchedule({ dataInicio, dataFim }).subscribe({
         next: (res: any) => {
           this.nextPayments = res.map((el: any) => {
-            const date = parseISO(el.payment_date)
+            const parsed = parse(el.payment_date, 'dd/MM/yyyy', new Date())
+
+            const iso = formatISO(parsed, { representation: 'date' })
+            const date = parseISO(iso)
 
             return {
               start: date,

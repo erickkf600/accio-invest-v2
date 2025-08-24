@@ -1,0 +1,20 @@
+.check-switch {
+  .p-inputswitch {
+    width: 2.5rem;
+    height: 1.2rem;
+    box-shadow: none;
+  }
+
+  .p-inputswitch .p-inputswitch-slider:before {
+    width: 10px;
+    height: 10px;
+    margin-top: -5px;
+  }
+  .p-inputswitch.p-inputswitch-checked .p-inputswitch-slider {
+    background: var(--surface-900);
+    box-shadow: none;
+  }
+  .p-inputswitch.p-focus .p-inputswitch-slider {
+    box-shadow: none;
+  }
+}

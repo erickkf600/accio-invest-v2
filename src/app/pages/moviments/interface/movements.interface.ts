@@ -16,6 +16,7 @@ export interface DataEntity {
   type_operation: TypeOperationOrType
   type: TypeOperationOrType
   split_inplit?: Unfolding
+  fixed_income?: FixedIncome
 }
 
 export interface Unfolding {
@@ -24,6 +25,22 @@ export interface Unfolding {
   to: number
   factor: number
 }
+export interface FixedIncome {
+  id: number
+  emissor: string
+  interest_rate: string
+  invest_type: string
+  title_type: number
+  date_operation: string
+  date_expiration: string
+  form: number
+  index: number
+  obs: string
+  total: string
+  daily_liquidity: number
+  other_cost: string
+}
+
 export interface TypeOperationOrType {
   title: string
   full_title: string
