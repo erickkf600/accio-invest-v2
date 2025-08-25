@@ -10,11 +10,11 @@
     height: 10px;
     margin-top: -5px;
   }
-  .p-inputswitch.p-inputswitch-checked .p-inputswitch-slider {
-    background: var(--surface-900);
-    box-shadow: none;
-  }
-  .p-inputswitch.p-focus .p-inputswitch-slider {
-    box-shadow: none;
+
+  &--large {
+    .p-inputswitch {
+      width: 35px;
+      height: 21px;
+    }
   }
 }

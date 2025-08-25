@@ -78,8 +78,8 @@
     </ng-template>
     <ng-template pTemplate="body" let-item>
       <tr>
-        <td>
-          {{ item.cod }}
+        <td [pTooltip]="item.cod">
+          {{ item.cod | ellipsis: 7 }}
         </td>
         <td>{{ item.type_operation.title }}</td>
         <td class="relative">{{ item.type.title }}</td>

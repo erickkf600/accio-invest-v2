@@ -108,8 +108,8 @@ export class ProventsComponent implements OnInit, OnDestroy {
           items: filteredItems,
         }
       })
+      .orderBy(['year', 'month_ref'], ['asc', 'asc'])
       .value()
-      .reverse()
     this.chartAportsOptions = {
       chart: {
         type: 'bar',

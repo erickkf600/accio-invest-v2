@@ -91,9 +91,10 @@ export class MovimentsComponent implements OnInit, OnDestroy {
           this.tableContent = res?.res
         }),
 
-      this.walletService
-        .getAssetsList()
-        .subscribe((res: any[]) => this.movimentsService.assetsList$.next(res.map(el => el.cod))),
+      this.walletService.getAssetsList().subscribe((res: any[]) => {
+        this.movimentsService.assetsList$.next(res.filter(r => r.type_id !== 3).map(el => el.cod))
+        this.movimentsService.rfList$.next(res.filter(r => r.type_id === 3).map(el => el.cod))
+      }),
     )
   }
 

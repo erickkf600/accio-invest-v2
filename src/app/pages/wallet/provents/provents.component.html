@@ -1,4 +1,15 @@
 <div class="provents">
+  <div class="card py-3 flex justify-content-between align-items-center">
+    <strong>Filtrar por ano</strong>
+    <p-dropdown
+      [(ngModel)]="selectedYear"
+      [options]="yearsList"
+      optionLabel="label"
+      optionValue="value"
+      (onChange)="setYear()"
+      styleClass="w-min"
+    />
+  </div>
   <div class="card">
     <strong class="text-lg">Composição da carteira</strong>
     <div class="flex gap-4 mt-5 align-items-start flex-column md:flex-row">
@@ -39,16 +50,7 @@
   </div>
 
   <div class="card">
-    <span class="flex justify-content-between align-items-center">
-      <strong class="text-lg">Proventos</strong>
-      <p-dropdown
-        [(ngModel)]="selectedYear"
-        [options]="yearsList"
-        optionLabel="label"
-        optionValue="value"
-        (onChange)="setYear()"
-      />
-    </span>
+    <strong class="text-lg">Proventos</strong>
 
     <div class="max-w-full overflow-hidden">
       <apx-chart
@@ -95,7 +97,7 @@
                 [disabled]="dvd.status !== 'not_registered' || dvd.qtdAtDate <= 0"
               />
             </td>
-            <td class="text-center">{{ dvd.cod }}</td>
+            <td class="text-center" [pTooltip]="dvd.cod">{{ dvd.cod | ellipsis: 10 }}</td>
             <td class="text-center">{{ dvd.type.title }}</td>
             <td class="text-center">{{ dvd.qtdAtDate }}</td>
             <td class="text-center">{{ dvd.totalReceived | currency: 'BRL' }}</td>
@@ -115,7 +117,9 @@
                     ? 'Não cadastrado'
                     : dvd.status === 'rent'
                       ? 'Aluguel'
-                      : 'Cadastrado'
+                      : dvd.status === 'rrf'
+                        ? 'Rendimento RF'
+                        : 'Cadastrado'
                 "
               />
             </td>

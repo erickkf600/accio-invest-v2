@@ -105,6 +105,13 @@ body {
 .p-checkbox:not(.p-checkbox-disabled) .p-checkbox-box:hover {
   border-color: var(--surface-900);
 }
+.p-inputswitch.p-inputswitch-checked .p-inputswitch-slider {
+  background: var(--surface-900);
+  box-shadow: none;
+}
+.p-inputswitch.p-focus .p-inputswitch-slider {
+  box-shadow: none;
+}
 
 .p-toast {
   &.p-toast-top-right,

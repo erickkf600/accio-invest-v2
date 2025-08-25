@@ -36,6 +36,9 @@ export class WalletService {
   geDividendsComparison(year: string | number): Observable<any[]> {
     return this.http.get<any[]>(`${environment.apiUrl}/wallet/dividends-graph/${year}`)
   }
+  getFixedIncomingList(): Observable<any[]> {
+    return this.http.get<any[]>(`${environment.apiUrl}/wallet/fixed-incoming`)
+  }
 
   saveProvent(data: any): Observable<Object> {
     return this.http.post(`${environment.apiUrl}/moviments`, data)

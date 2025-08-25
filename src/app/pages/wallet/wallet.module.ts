@@ -18,6 +18,8 @@ import { ButtonModule } from 'primeng/button'
 import { ConfirmPopupModule } from 'primeng/confirmpopup'
 import { ConfirmationService } from 'primeng/api'
 import { MultiSelectModule } from 'primeng/multiselect'
+import { EllipsisPipe } from 'src/app/pipes/ellipsis.pipe'
+import { TooltipModule } from 'primeng/tooltip'
 
 @NgModule({
   declarations: [WalletComponent, MyProductsComponent, RentabilityComponent, ProventsComponent],
@@ -35,6 +37,8 @@ import { MultiSelectModule } from 'primeng/multiselect'
     ConfirmPopupModule,
     MultiSelectModule,
     FormsModule,
+    EllipsisPipe,
+    TooltipModule,
   ],
   providers: [WalletService, ConfirmationService],
 })

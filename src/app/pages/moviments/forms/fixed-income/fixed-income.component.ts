@@ -25,6 +25,7 @@ export class FixedIncomeComponent {
   public buildFormGroup: FormGroup
   public hasCurrencyMask: boolean = true
   public hasCurrencyMask2: boolean = true
+  currentIndex = 0
   fixedIncomeEditId: number
   investTypes: any[] = INVEST_TYPES.map(el => ({ value: el.id, label: el.title }))
   titleTypes: any[] = TITLE_TYPES.map((el: any) => ({ value: el.id, label: el.title }))
@@ -47,6 +48,9 @@ export class FixedIncomeComponent {
       .pipe(take(1))
       .subscribe(res => {
         if (res) {
+          if (res.type_operation.id === 3) {
+            this.currentIndex = 1
+          }
           this._buildFormEdit(res)
           this.fixedIncomeEditId = res.id
         } else {
@@ -98,6 +102,7 @@ export class FixedIncomeComponent {
     const payload = Object.assign(data, {
       value: parseCurrency(data.value),
     })
+
     this.savingLoader = true
     const method = this.fixedIncomeEditId
       ? this.movimentsService.patchMovimentsRF(payload, this.fixedIncomeEditId)

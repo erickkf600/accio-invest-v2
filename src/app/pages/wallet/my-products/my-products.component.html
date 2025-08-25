@@ -67,7 +67,7 @@
         </ng-template>
         <ng-template pTemplate="body" let-product>
           <tr>
-            <td class="text-center">{{ product.cod }}</td>
+            <td class="text-center" [pTooltip]="product.cod">{{ product.cod | ellipsis: 10 }}</td>
             <td class="text-center">
               {{ product.type }}
             </td>

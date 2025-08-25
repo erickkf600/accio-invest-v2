@@ -8,6 +8,7 @@ import { DataEntity } from '../interface/movements.interface'
 export class MovimentsService {
   private changes$ = new BehaviorSubject<void>(undefined)
   public assetsList$: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([])
+  public rfList$: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([])
   public editContent$: BehaviorSubject<DataEntity> = new BehaviorSubject(null as any)
   constructor(private http: HttpClient) {}
   cache$: Observable<any>
@@ -90,5 +91,13 @@ export class MovimentsService {
 
   deleteMovimentationRF(id: string | number): Observable<Object> {
     return this.http.delete(`${environment.apiUrl}/moviments/fixed-incoming/${id}`)
+  }
+
+  saveRFRendiment(data: any): Observable<Object> {
+    return this.http.post(`${environment.apiUrl}/moviments/fixed-incoming/rendiment`, data)
+  }
+
+  patchRFRendiment(data: DataEntity, id: number): Observable<Object> {
+    return this.http.patch(`${environment.apiUrl}/moviments/fixed-incoming/rendiment/${id}`, data)
   }
 }

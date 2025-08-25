@@ -4,6 +4,10 @@ import _, { concat } from 'lodash'
 import { MessageService } from 'primeng/api'
 import { Subscription, finalize, forkJoin } from 'rxjs'
 import { WalletService } from '../service/wallet.service'
+import { INVEST_TYPES } from '@mocks/investTypes'
+import { TITLE_TYPES } from '@mocks/titleTypes'
+import { FORM_TYPES } from '@mocks/formTypes'
+import { INDEX_TYPES } from '@mocks/indexTypes'
 
 @Component({
   selector: 'app-rentability',
@@ -20,6 +24,12 @@ export class RentabilityComponent implements OnInit, OnDestroy {
   patrimonyRent: any[] = []
   variationList: any[] = []
   dividendList: any[] = []
+  fixedIncoming: any[] = []
+
+  investTypes = INVEST_TYPES
+  titleTypes = TITLE_TYPES
+  formTypes = FORM_TYPES
+  indexTypes = INDEX_TYPES
 
   yearsList: { label: number; value: number }[] = []
   monthFilterContent: { label: number; value: number }[] = []
@@ -45,10 +55,12 @@ export class RentabilityComponent implements OnInit, OnDestroy {
         patrimonyGain: this.walletService.getPatrimonyGain(),
         variations: this.walletService.getVariations(),
         dividends: this.walletService.geDividendsComparison(this.selectedYear),
+        fixedIncoming: this.walletService.getFixedIncomingList(),
       })
         .pipe(finalize(() => (this.rentLoading = false)))
         .subscribe({
           next: (res: any) => {
+            this.fixedIncoming = res.fixedIncoming
             this.patrimonyRent = res.patrimonyGain.reverse()
             this.variationList = res.variations
             this.dividendList = res.dividends.content

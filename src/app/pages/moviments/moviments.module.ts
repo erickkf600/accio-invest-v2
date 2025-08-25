@@ -31,6 +31,11 @@ import { FixedIncomeComponent } from './forms/fixed-income/fixed-income.componen
 import { InputSwitchModule } from 'primeng/inputswitch'
 import { InputGroupModule } from 'primeng/inputgroup'
 import { InputGroupAddonModule } from 'primeng/inputgroupaddon'
+import { TabsModule } from '@components/tabs/tabs.module'
+import { RendimentFormComponent } from './forms/fixed-income/rendiment-form/rendiment-form.component'
+import { EllipsisPipe } from 'src/app/pipes/ellipsis.pipe'
+import { TooltipModule } from 'primeng/tooltip'
+
 @NgModule({
   declarations: [
     MovimentsComponent,
@@ -40,6 +45,7 @@ import { InputGroupAddonModule } from 'primeng/inputgroupaddon'
     SellComponent,
     SplitComponent,
     FixedIncomeComponent,
+    RendimentFormComponent,
   ],
   imports: [
     CommonModule,
@@ -64,6 +70,9 @@ import { InputGroupAddonModule } from 'primeng/inputgroupaddon'
     InputSwitchModule,
     InputGroupModule,
     InputGroupAddonModule,
+    TabsModule,
+    EllipsisPipe,
+    TooltipModule,
   ],
   providers: [MovimentsService, ConfirmationService, WalletService],
 })

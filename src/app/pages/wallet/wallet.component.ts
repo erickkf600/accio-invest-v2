@@ -49,7 +49,7 @@ export class WalletComponent implements OnInit, OnDestroy {
               iconBg: 'bg-red-100',
             },
             {
-              title: 'Total de proventos',
+              title: 'Total de rendimento',
               value: `R$ ${res.total_provents.toFixed(2)}`,
               icon: 'pi pi-dollar',
               iconColor: 'text-green-500',
