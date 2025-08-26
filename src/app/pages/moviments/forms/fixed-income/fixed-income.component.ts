@@ -72,11 +72,13 @@ export class FixedIncomeComponent {
       value: new FormControl('', Validators.required),
       interest_rate: new FormControl('', Validators.required),
       other_cost: new FormControl(''),
+      ir: new FormControl(false, Validators.required),
       obs: new FormControl(''),
     })
   }
 
   private _buildFormEdit(res: any) {
+    console.log(res)
     this.buildFormGroup = new FormGroup({
       emissor: new FormControl(res.fixed_income.emissor, Validators.required),
       invest_type: new FormControl(+res.fixed_income.invest_type, Validators.required),
@@ -93,6 +95,7 @@ export class FixedIncomeComponent {
           ? parseFloat(res.fixed_income.total).toFixed(2)
           : '',
       ),
+      ir: new FormControl(!!res.fixed_income.ir, Validators.required),
       obs: new FormControl(res.obs),
     })
   }

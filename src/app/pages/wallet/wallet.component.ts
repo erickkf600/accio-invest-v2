@@ -40,6 +40,7 @@ export class WalletComponent implements OnInit, OnDestroy {
               icon: 'pi pi-wallet',
               iconColor: 'text-blue-500',
               iconBg: 'bg-blue-100',
+              help: 'Soma dos preços médios',
             },
             {
               title: 'Patrimônio',
@@ -47,6 +48,7 @@ export class WalletComponent implements OnInit, OnDestroy {
               icon: 'pi pi-chart-line',
               iconColor: 'text-red-500',
               iconBg: 'bg-red-100',
+              help: 'Valor de mercado mais proventos',
             },
             {
               title: 'Total de rendimento',

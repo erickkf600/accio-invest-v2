@@ -7,9 +7,9 @@ import { CommonModule } from '@angular/common'
   selector: 'app-loader',
   template: `
     <div
+      class="fixed top-0 left-0 w-full h-full flex align-items-center justify-content-center"
+      style="z-index: 999; background: var(--highlight-bg)"
       *ngIf="loadingService.loading$ | async"
-      class="fixed top-0 left-0 w-full h-full flex align-items-center justify-content-center bg-white"
-      style="z-index: 999"
     >
       <p-progressSpinner></p-progressSpinner>
     </div>

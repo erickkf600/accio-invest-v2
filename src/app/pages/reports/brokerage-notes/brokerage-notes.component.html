@@ -1,0 +1,29 @@
+<section>
+  <p-toolbar styleClass="mb-3">
+    <ng-template pTemplate="left">
+      <span class="p-input-icon-left mb-2">
+        <i class="pi pi-search"></i>
+        <input
+          pInputText
+          type="text"
+          #filter
+          (input)="onGlobalFilter(dt, $event)"
+          placeholder="Pesquisar"
+          class="w-full"
+        />
+      </span>
+    </ng-template>
+    <ng-template pTemplate="right">
+      <p-fileUpload
+        mode="basic"
+        chooseLabel="Adicionar"
+        chooseIcon="pi pi-upload"
+        name="nota_corretagem[]"
+        accept="application/pdf"
+        [auto]="true"
+        (onSelect)="onUpload($event)"
+        styleClass="p-button-contrast"
+      />
+    </ng-template>
+  </p-toolbar>
+</section>

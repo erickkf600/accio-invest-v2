@@ -1,4 +1,4 @@
-<section class="aports" *ngIf="aportsHistoryContent.length; else noData">
+<section class="sells" *ngIf="sellHistoryContent.length; else noData">
   <p-toolbar styleClass="mb-3">
     <ng-template pTemplate="left">
       <span class="p-input-icon-left mb-2">
@@ -25,44 +25,35 @@
     </ng-template>
   </p-toolbar>
   <div class="card">
-    <!-- <p class="text-lg font-bold w-full justify-content-end flex">
+    <p class="text-lg font-bold w-full justify-content-end flex">
       TOTAL: {{ total | currency: 'BRL' }}
-    </p> -->
+    </p>
     <div class="w-full">
       <p-table
         #dt
-        [value]="aportsHistoryContent"
-        [globalFilterFields]="['month', 'value', 'total_fees']"
+        [value]="sellHistoryContent"
+        [globalFilterFields]="['date_operation', 'id', 'type']"
         styleClass="p-datatable-gridlines p-datatable-striped"
       >
-        <ng-template pTemplate="caption"> </ng-template>
         <ng-template pTemplate="header">
           <tr>
-            <th class="text-center">Mês</th>
-            <th class="text-center">Sub total</th>
-            <th class="text-center">Taxas</th>
-            <th class="text-center">Total</th>
-            <th class="text-center" style="width: 1rem">Visualizar</th>
+            <th class="text-center">Cod</th>
+            <th class="text-center">Data</th>
+            <th class="text-center">Tipo</th>
+            <th class="text-center">Valor</th>
           </tr>
         </ng-template>
-        <ng-template pTemplate="body" let-aport>
+        <ng-template pTemplate="body" let-rent>
           <tr>
-            <td class="text-center">{{ aport.month }}</td>
+            <td class="text-center">{{ rent.cod }}</td>
             <td class="text-center">
-              {{ aport.value | currency: 'BRL' }}
+              {{ rent.date_operation }}
             </td>
             <td class="text-center">
-              {{ aport.fees | currency: 'BRL' }}
+              {{ rent.assetsType.full_title }}
             </td>
             <td class="text-center">
-              {{ aport.total_fees | currency: 'BRL' }}
-            </td>
-            <td class="text-center">
-              <button
-                class="pi pi-eye accio-table__action cursor-pointer text-lg"
-                type="button"
-                (click)="openDetail(aport)"
-              ></button>
+              {{ rent.total | currency: 'BRL' }}
             </td>
           </tr>
         </ng-template>
@@ -73,6 +64,6 @@
 
 <ng-template #noData>
   <div class="card">
-    <p>Nenhum aporte encontrado</p>
+    <p>Nenhuma venda cadastrada</p>
   </div>
 </ng-template>
