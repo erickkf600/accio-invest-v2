@@ -78,7 +78,6 @@ export class FixedIncomeComponent {
   }
 
   private _buildFormEdit(res: any) {
-    console.log(res)
     this.buildFormGroup = new FormGroup({
       emissor: new FormControl(res.fixed_income.emissor, Validators.required),
       invest_type: new FormControl(+res.fixed_income.invest_type, Validators.required),

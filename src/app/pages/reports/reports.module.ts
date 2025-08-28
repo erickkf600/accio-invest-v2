@@ -28,6 +28,9 @@ import { FixedIncomingComponent } from './fixed-incoming/fixed-incoming.componen
 import { TagModule } from 'primeng/tag'
 import { TooltipModule } from 'primeng/tooltip'
 import { EllipsisPipe } from 'src/app/pipes/ellipsis.pipe'
+import { UploadFormComponent } from './brokerage-notes/upload-form/upload-form.component'
+import { InputMaskModule } from 'primeng/inputmask'
+import { DropdownModule } from 'primeng/dropdown'
 
 @NgModule({
   declarations: [
@@ -40,6 +43,7 @@ import { EllipsisPipe } from 'src/app/pipes/ellipsis.pipe'
     BrokerageNotesComponent,
     MediumPriceComponent,
     FixedIncomingComponent,
+    UploadFormComponent,
   ],
   imports: [
     CommonModule,
@@ -59,7 +63,9 @@ import { EllipsisPipe } from 'src/app/pipes/ellipsis.pipe'
     InputAutocompleteComponent,
     TagModule,
     TooltipModule,
-    EllipsisPipe
+    EllipsisPipe,
+    InputMaskModule,
+    DropdownModule,
   ],
   providers: [ReportsService, DialogService, CurrencyPipe, WalletService, CurrencyPipe],
 })

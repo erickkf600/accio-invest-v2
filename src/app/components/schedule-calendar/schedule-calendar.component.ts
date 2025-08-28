@@ -53,7 +53,6 @@ export class ScheduleCalendarComponent implements OnInit, OnDestroy {
         this.overlayPanel.show(ev)
       }
       this.selectedContent = data.events.flatMap(item => item.meta)
-      console.log(this.selectedContent)
     }
   }
 

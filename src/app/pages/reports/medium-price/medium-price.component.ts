@@ -53,7 +53,6 @@ export class MediumPriceComponent implements OnInit, OnDestroy {
   }
 
   onGlobalFilter(event: Event) {
-    console.log(this.table)
     this.table.filterGlobal((event.target as HTMLInputElement).value, 'contains')
   }
 

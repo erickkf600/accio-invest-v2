@@ -1,0 +1,14 @@
+@import 'mixins';
+.upload-modal {
+  width: 100vw;
+  height: 100vh;
+
+  .p-dialog-content {
+    overflow-y: hidden;
+  }
+  @include respond-to('medium') {
+    width: 40vw;
+    height: fit-content;
+    // min-height: 50vh;
+  }
+}

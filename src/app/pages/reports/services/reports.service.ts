@@ -1,4 +1,4 @@
-import { HttpClient, HttpContext } from '@angular/common/http'
+import { HttpClient, HttpContext, HttpParams } from '@angular/common/http'
 import { Injectable } from '@angular/core'
 import { HAS_LOADING } from '@contexts'
 import { environment } from '@environment'
@@ -12,6 +12,7 @@ export class ReportsService {
   splitCache$: Observable<any>
   rfCache$: Observable<any>
   private pmCacheMap: { [key: string]: Observable<Object> } = {}
+  private bInvoice: { [key: string]: Observable<Object> } = {}
 
   constructor(private http: HttpClient) {}
 
@@ -73,5 +74,38 @@ export class ReportsService {
     }
 
     return this.pmCacheMap[cacheKey]
+  }
+  getBInvoiceHistory(
+    clearCache: boolean,
+    loading: boolean,
+    param: string | null,
+    responseType = 'json',
+  ): Observable<Object> {
+    const cacheKey = JSON.stringify(param)
+    if (clearCache) {
+      delete this.bInvoice[cacheKey]
+    }
+
+    if (!this.bInvoice[cacheKey]) {
+      let params = undefined
+      if (param !== null) {
+        params = new HttpParams().set('path', param)
+      }
+
+      this.bInvoice[cacheKey] = this.http
+        .get(`${environment.apiUrl}/reports/brokerage-invoices`, {
+          context: new HttpContext().set(HAS_LOADING, loading),
+          responseType: responseType as any,
+          params,
+        })
+        .pipe(shareReplay(1))
+    }
+
+    return this.bInvoice[cacheKey]
+  }
+  postFile(formData: any): Observable<Object> {
+    return this.http.post(`${environment.apiUrl}/reports/upload/brokerage`, formData, {
+      context: new HttpContext().set(HAS_LOADING, false),
+    })
   }
 }
