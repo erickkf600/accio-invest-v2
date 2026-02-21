@@ -1,0 +1,10 @@
+version: '3.8'
+name: accio
+services:
+  app:
+    container_name: accio-invest-front
+    image: accio-invest-front
+    build:
+      context: .
+    ports:
+      - 8082:82
