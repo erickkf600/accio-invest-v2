@@ -1,0 +1,56 @@
+<section class="flex flex-column">
+  <form [formGroup]="buildFormGroup" (ngSubmit)="submitForm()">
+    <div class="p-fluid p-formgrid grid">
+      <div class="field col-12 md:col-4 mb-0">
+        <label htmlFor="opDate">Data da operação</label>
+        <p-inputMask formControlName="date_operation" mask="99/99/9999" inputId="opDate" />
+      </div>
+
+      <input-autocomplete
+        class="field col-12 md:col-4 mb-0"
+        [options]="movimentsService.rfList$.asObservable() | async"
+      >
+        <label htmlFor="cod" label>Emissor</label>
+        <input pInputText id="cod" type="text" formControlName="emissor" inputUpperCase #inputRef />
+      </input-autocomplete>
+
+      <div class="field col-12 md:col-4 mb-0 realtive">
+        <label
+          htmlFor="unityValue"
+          class="flex justify-content-between align-items-center relative"
+        >
+          Valor do rendimento
+          <p-toggleButton
+            onLabel="number"
+            offLabel="currency"
+            tabindex="-1"
+            (onChange)="hasCurrencyMask = !hasCurrencyMask"
+            styleClass="input-toggle"
+          />
+        </label>
+        <input
+          pInputText
+          id="unityValue"
+          type="text"
+          formControlName="total"
+          [currencyMask]="hasCurrencyMask"
+        />
+      </div>
+    </div>
+
+    <div class="mt-4 flex justify-content-center">
+      <p-button
+        [label]="
+          !(movimentsService.editContent$.asObservable() | async)
+            ? 'Adicionar Rendimento'
+            : 'Editar Rendimento'
+        "
+        severity="contrast"
+        [outlined]="true"
+        [disabled]="buildFormGroup.invalid"
+        type="submit"
+        [loading]="savingLoader"
+      />
+    </div>
+  </form>
+</section>

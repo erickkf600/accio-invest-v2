@@ -25,13 +25,24 @@ body {
 }
 
 .p-dropdown {
-  background: rgb(255 255 255 / 20%);
-  border: solid 1px rgb(0 0 0 / 30%);
+  // background: rgb(255 255 255 / 20%);
+  border: 1px solid var(--border-color);
   margin: 0 !important;
   width: 100%;
+  outline: none;
+  box-shadow: none;
 
   &-item {
     padding: 7px 10px;
+  }
+  .p-dropdown-panel .p-dropdown-items .p-dropdown-item.p-highlight.p-focus {
+    color: var(--text-color);
+    background: var(--dp-highlight);
+  }
+
+  &:hover,
+  &:enabled:focus {
+    border-color: var(--surface-900);
   }
 }
 
@@ -84,6 +95,24 @@ body {
   }
 }
 
+.p-checkbox .p-checkbox-box.p-highlight {
+  border-color: var(--surface-900);
+  background: var(--surface-900);
+  .p-checkbox-icon {
+    color: var(--surface-0);
+  }
+}
+.p-checkbox:not(.p-checkbox-disabled) .p-checkbox-box:hover {
+  border-color: var(--surface-900);
+}
+.p-inputswitch.p-inputswitch-checked .p-inputswitch-slider {
+  background: var(--surface-900);
+  box-shadow: none;
+}
+.p-inputswitch.p-focus .p-inputswitch-slider {
+  box-shadow: none;
+}
+
 .p-toast {
   &.p-toast-top-right,
   &.p-toast-top-left,
@@ -95,6 +124,21 @@ body {
 button {
   outline: none;
   box-shadow: none;
+}
+.input-toggle {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: fit-content;
+  padding: 3px 10px;
+  background: var(--surface-200);
+  border: none;
+  .p-button {
+    &-label {
+      font-size: 10px;
+      color: var(--text-color);
+    }
+  }
 }
 
 .p-inputtext {
@@ -140,25 +184,27 @@ button {
       }
     }
   }
-  .p-dropdown {
-    padding: 0;
-    height: 2rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 8px;
-    padding: 6px 0 6px 6px;
-    outline: none !important;
-    box-shadow: none !important;
-    .p-inputtext {
-      padding: 0 !important;
-    }
-    &-trigger {
-      width: fit-content !important;
-    }
-    .p-dropdown-panel .p-dropdown-items .p-dropdown-item.p-highlight {
-      background: var(--dp-highlight);
-      color: var(--dp-highlight-color);
+  .p-paginator {
+    .p-dropdown {
+      padding: 0;
+      height: 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      padding: 6px 0 6px 6px;
+      outline: none !important;
+      box-shadow: none !important;
+      .p-inputtext {
+        padding: 0 !important;
+      }
+      &-trigger {
+        width: fit-content !important;
+      }
+      .p-dropdown-panel .p-dropdown-items .p-dropdown-item.p-highlight {
+        background: var(--dp-highlight);
+        color: var(--dp-highlight-color);
+      }
     }
   }
 

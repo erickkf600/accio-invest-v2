@@ -1,0 +1,10 @@
+@import 'mixins';
+.details-modal {
+  width: 100vw;
+  height: 100vh;
+
+  @include respond-to('medium') {
+    width: 40vw;
+    height: fit-content;
+  }
+}

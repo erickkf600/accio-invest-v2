@@ -1,0 +1,92 @@
+<section class="sells" *ngIf="rfHistoryContent.length; else noData">
+  <p-toolbar styleClass="mb-3">
+    <ng-template pTemplate="left">
+      <span class="p-input-icon-left mb-2">
+        <i class="pi pi-search"></i>
+        <input
+          pInputText
+          type="text"
+          #filter
+          (input)="onGlobalFilter(dt, $event)"
+          placeholder="Pesquisar"
+          class="w-full"
+        />
+      </span>
+    </ng-template>
+    <ng-template pTemplate="right">
+      <button
+        pButton
+        pRipple
+        label="Gerar PDF"
+        icon="pi pi-download"
+        class="p-button-contrast"
+        (click)="downloadPDF()"
+      ></button>
+    </ng-template>
+  </p-toolbar>
+  <div class="card">
+    <div class="w-full">
+      <p-table
+        #dt
+        [value]="rfHistoryContent"
+        [globalFilterFields]="[
+          'emissor',
+          'id',
+          'interest_rate',
+          'date_operation',
+          'date_expiration',
+          'daily_liquidity',
+        ]"
+        styleClass="p-datatable-gridlines p-datatable-striped"
+      >
+        <ng-template pTemplate="header">
+          <tr>
+            <th class="text-center">Emissor</th>
+            <th class="text-center">T. de invest.</th>
+            <th class="text-center">T. de título</th>
+            <th class="text-center">Compra</th>
+            <th class="text-center">Vencimento</th>
+            <th class="text-center">F. de rend.</th>
+            <th class="text-center">Indexador</th>
+            <th class="text-center">Gross Up</th>
+            <th class="text-center">Tx. de juros</th>
+            <th class="text-center">V. invest.</th>
+            <th class="text-center">Rent</th>
+            <th class="text-center">Expirado?</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-fix>
+          <tr>
+            <td class="text-center" [pTooltip]="fix.emissor">{{ fix.emissor | ellipsis: 7 }}</td>
+            <td class="text-center">{{ investTypes[+fix.invest_type - 1].title }}</td>
+            <td class="text-center">{{ titleTypes[fix.title_type - 1].title }}</td>
+            <td class="text-center">{{ fix.date_operation }}</td>
+            <td class="text-center">{{ fix.date_expiration }}</td>
+            <td class="text-center">{{ formTypes[fix.form - 1].title }}</td>
+            <td class="text-center">{{ indexTypes[fix.index - 1].title }}</td>
+            <td class="text-center">
+              {{ fix.gross_up | number: '1.2-2' }}% do {{ indexTypes[fix.index - 1].title }}
+            </td>
+            <td class="text-center">{{ fix.interest_rate }}%</td>
+            <td class="text-center">
+              {{ fix.total | currency: 'BRL' }}
+            </td>
+            <td class="text-center">{{ +fix.rentability | number: '1.2-2' }}%</td>
+            <td class="text-center">
+              <p-tag
+                [severity]="!!fix.expired ? 'danger' : 'success'"
+                [value]="!!fix.expired ? 'sim' : 'não'"
+              />
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+  </div>
+</section>
+
+<ng-template #noData>
+  <div class="card">
+    <p>Nenhuma renda fixa cadastrada</p>
+  </div>
+</ng-template>

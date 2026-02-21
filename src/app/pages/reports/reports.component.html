@@ -1,1 +1,25 @@
-<p>reports works!</p>
+<section class="reports">
+  <accio-tabs [activeIndex]="activeTabIndex">
+    <tab-item label="Histórico Aportes">
+      <app-aports />
+    </tab-item>
+    <tab-item label="Recebidos de Aluguéis">
+      <recived-rent />
+    </tab-item>
+    <tab-item label="Vendas">
+      <app-sells />
+    </tab-item>
+    <tab-item label="Desdobramentos">
+      <app-unfoldings />
+    </tab-item>
+    <tab-item label="Notas de Corretagem">
+      <brokerage-notes />
+    </tab-item>
+    <tab-item label="Preço Médio Histórico">
+      <app-medium-price />
+    </tab-item>
+    <tab-item label="Renda fixa">
+      <fixed-incoming />
+    </tab-item>
+  </accio-tabs>
+</section>

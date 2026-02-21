@@ -6,7 +6,9 @@ import { DataEntity } from '../interface/movements.interface'
 
 @Injectable()
 export class MovimentsService {
-  public preSaved$: BehaviorSubject<any> = new BehaviorSubject([])
+  private changes$ = new BehaviorSubject<void>(undefined)
+  public assetsList$: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([])
+  public rfList$: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([])
   public editContent$: BehaviorSubject<DataEntity> = new BehaviorSubject(null as any)
   constructor(private http: HttpClient) {}
   cache$: Observable<any>
@@ -38,33 +40,64 @@ export class MovimentsService {
   }
 
   saveInSession(key: string, value: any, reset: boolean = false): void {
-    if (reset) {
-      sessionStorage.setItem(key, JSON.stringify(value))
-      this.preSaved$.next({ [key]: value })
-    } else {
-      const currentValue = JSON.parse(sessionStorage.getItem(key) as any)
-      sessionStorage.setItem(key, JSON.stringify([...currentValue, ...value]))
-      this.preSaved$.next(this.preSaved$.next({ ...currentValue, [key]: value }))
-    }
+    const stored = sessionStorage.getItem(key)
+    const currentValue = stored ? JSON.parse(stored) : []
+
+    const newValue = reset
+      ? value
+      : Array.isArray(currentValue) && Array.isArray(value)
+        ? [...currentValue, ...value]
+        : value // concatena se forem arrays, senão substitui
+
+    sessionStorage.setItem(key, JSON.stringify(newValue))
+    this.changes$.next()
   }
   getSession(stKey: string): Observable<any> {
-    return this.preSaved$.pipe(
-      map(data => {
-        const value = data?.[stKey]
-        return value ?? JSON.parse(sessionStorage.getItem(stKey) as string)
+    return this.changes$.pipe(
+      map(() => {
+        const stored = sessionStorage.getItem(stKey)
+        return stored ? JSON.parse(stored) : null
       }),
     )
   }
 
   removeFromSession(key: string, id: number): void {
-    const currentValue = JSON.parse(sessionStorage.getItem(key) as any)
-    const realIndex = currentValue.findIndex((e: any) => e.id === id)
-    currentValue.splice(realIndex, 1)
-    sessionStorage.setItem(key, JSON.stringify(currentValue))
-    this.preSaved$.next(currentValue)
+    const stored = sessionStorage.getItem(key)
+    if (!stored) return
+
+    const currentValue = JSON.parse(stored)
+    if (!Array.isArray(currentValue)) return
+
+    const filtered = currentValue.filter((e: any) => e.id !== id)
+    sessionStorage.setItem(key, JSON.stringify(filtered))
+    this.changes$.next() // emite mudança
+  }
+  removeSessionKey(key: string): void {
+    sessionStorage.removeItem(key)
+    this.changes$.next()
   }
 
-  deleteMovimentation(id: number): Observable<Object> {
+  deleteMovimentation(id: string | number): Observable<Object> {
     return this.http.delete(`${environment.apiUrl}/moviments/${id}`)
+  }
+
+  saveMovimentsRF(data: any): Observable<Object> {
+    return this.http.post(`${environment.apiUrl}/moviments/fixed-incoming`, data)
+  }
+
+  patchMovimentsRF(data: DataEntity, id: number): Observable<Object> {
+    return this.http.patch(`${environment.apiUrl}/moviments/fixed-incoming/${id}`, data)
+  }
+
+  deleteMovimentationRF(id: string | number): Observable<Object> {
+    return this.http.delete(`${environment.apiUrl}/moviments/fixed-incoming/${id}`)
+  }
+
+  saveRFRendiment(data: any): Observable<Object> {
+    return this.http.post(`${environment.apiUrl}/moviments/fixed-incoming/rendiment`, data)
+  }
+
+  patchRFRendiment(data: DataEntity, id: number): Observable<Object> {
+    return this.http.patch(`${environment.apiUrl}/moviments/fixed-incoming/rendiment/${id}`, data)
   }
 }

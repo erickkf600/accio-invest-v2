@@ -1,0 +1,78 @@
+<section class="aports" *ngIf="aportsHistoryContent.length; else noData">
+  <p-toolbar styleClass="mb-3">
+    <ng-template pTemplate="left">
+      <span class="p-input-icon-left mb-2">
+        <i class="pi pi-search"></i>
+        <input
+          pInputText
+          type="text"
+          #filter
+          (input)="onGlobalFilter(dt, $event)"
+          placeholder="Pesquisar"
+          class="w-full"
+        />
+      </span>
+    </ng-template>
+    <ng-template pTemplate="right">
+      <button
+        pButton
+        pRipple
+        label="Gerar PDF"
+        icon="pi pi-download"
+        class="p-button-contrast"
+        (click)="downloadPDF()"
+      ></button>
+    </ng-template>
+  </p-toolbar>
+  <div class="card">
+    <!-- <p class="text-lg font-bold w-full justify-content-end flex">
+      TOTAL: {{ total | currency: 'BRL' }}
+    </p> -->
+    <div class="w-full">
+      <p-table
+        #dt
+        [value]="aportsHistoryContent"
+        [globalFilterFields]="['month', 'value', 'total_fees']"
+        styleClass="p-datatable-gridlines p-datatable-striped"
+      >
+        <ng-template pTemplate="caption"> </ng-template>
+        <ng-template pTemplate="header">
+          <tr>
+            <th class="text-center">Mês</th>
+            <th class="text-center">Sub total</th>
+            <th class="text-center">Taxas</th>
+            <th class="text-center">Total</th>
+            <th class="text-center" style="width: 1rem">Visualizar</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-aport>
+          <tr>
+            <td class="text-center">{{ aport.month }}</td>
+            <td class="text-center">
+              {{ aport.value | currency: 'BRL' }}
+            </td>
+            <td class="text-center">
+              {{ aport.fees | currency: 'BRL' }}
+            </td>
+            <td class="text-center">
+              {{ aport.total_fees | currency: 'BRL' }}
+            </td>
+            <td class="text-center">
+              <button
+                class="pi pi-eye accio-table__action cursor-pointer text-lg"
+                type="button"
+                (click)="openDetail(aport)"
+              ></button>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+  </div>
+</section>
+
+<ng-template #noData>
+  <div class="card">
+    <p>Nenhum aporte encontrado</p>
+  </div>
+</ng-template>

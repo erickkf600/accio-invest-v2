@@ -1,0 +1,98 @@
+<div class="my-products">
+  <div class="card">
+    <strong class="text-lg">Composição da carteira </strong>
+    <div class="flex gap-4 mt-5 align-items-start flex-column md:flex-row">
+      <apx-chart
+        #chart
+        [series]="chartAlocationsOptions.series"
+        [chart]="chartAlocationsOptions.chart"
+        [labels]="chartAlocationsOptions.labels"
+        [colors]="chartAlocationsOptions.colors"
+        [legend]="chartAlocationsOptions.legend"
+        [tooltip]="chartAlocationsOptions.tooltip"
+        [dataLabels]="chartAlocationsOptions.dataLabels"
+        [responsive]="chartAlocationsOptions.responsive"
+        *ngIf="!compLoading && (walletService.activeTab$ | async) === 0"
+      >
+      </apx-chart>
+
+      <div class="w-full">
+        <p-table [value]="alocations">
+          <ng-template pTemplate="header">
+            <tr>
+              <th>Classe</th>
+              <th>% da carteira</th>
+              <th>Saldo</th>
+              <th>S. cotação atual</th>
+              <th>Ren. 30 dias</th>
+              <th>Ren. 12 meses</th>
+              <th>Rentabilidade</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-wallet>
+            <tr>
+              <td class="flex gap-2 align-items-center">
+                <div class="my-products__indicator" [style.background]="wallet.hex"></div>
+                {{ wallet.type }}
+              </td>
+              <td class="text-center">{{ wallet.percent_wallet }}</td>
+              <td class="text-center">{{ wallet.total | currency: 'BRL' }}</td>
+              <td class="text-center">{{ wallet.current_value | currency: 'BRL' }}</td>
+              <td class="text-center">{{ wallet.rent_month }}</td>
+              <td class="text-center">{{ wallet.rent_last_12 }}</td>
+              <td class="text-center">{{ wallet.total_rent }}</td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <strong class="text-lg">Meus ativos</strong>
+
+    <div class="w-full mt-5">
+      <p-table [value]="assets" styleClass="p-datatable-gridlines p-datatable-striped">
+        <ng-template pTemplate="header">
+          <tr>
+            <th class="text-center">produto</th>
+            <th class="text-center">Classe</th>
+            <th class="text-center">Quantidade</th>
+            <th class="text-center">Preço médio</th>
+            <th class="text-center">Dvd. pagos</th>
+            <th class="text-center">Total Invest.</th>
+            <th class="text-center">Total de mercado</th>
+            <th class="text-center">Patrimônio Liquido</th>
+            <th class="text-center">Rentabilidade últi. 12m</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-product>
+          <tr>
+            <td class="text-center" [pTooltip]="product.cod">{{ product.cod | ellipsis: 10 }}</td>
+            <td class="text-center">
+              {{ product.type }}
+            </td>
+            <td class="text-center">
+              {{ product.qtd }}
+            </td>
+            <td class="text-center">
+              {{ product.medium_price | currency: 'BRL' }}
+            </td>
+            <td class="text-center">{{ product.payed_dividend | currency: 'BRL' }}</td>
+            <td class="text-center">
+              {{ product.total | currency: 'BRL' }}
+            </td>
+            <td class="text-center">
+              {{ product.price_total | currency: 'BRL' }}
+            </td>
+            <td class="text-center">
+              {{ product.patrimony | currency: 'BRL' }}
+            </td>
+            <td class="text-center">
+              {{ product.rent_last_12 }}
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+  </div>
+</div>

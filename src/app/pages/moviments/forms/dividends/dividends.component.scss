@@ -1,0 +1,19 @@
+::ng-deep {
+  .input-action-button {
+    border-color: #424b57;
+    &--remove {
+      border-right: none;
+    }
+    &--add {
+      border-left: none;
+    }
+  }
+}
+
+.remove-button {
+  position: absolute;
+  right: -30px;
+  top: 0;
+  bottom: 0;
+  margin: auto 0;
+}

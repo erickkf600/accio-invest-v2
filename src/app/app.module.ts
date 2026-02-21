@@ -20,7 +20,9 @@ import { HeaderComponent } from '@components/header/header.component'
 import { SidemenuComponent } from '@components/sidemenu/sidemenu.component'
 import { ConfirmDialogModule } from 'primeng/confirmdialog'
 import { ButtonModule } from 'primeng/button'
-
+import { registerLocaleData } from '@angular/common'
+import localePt from '@angular/common/locales/pt'
+registerLocaleData(localePt)
 export function HttpLoaderFactory(http: HttpClient) {}
 
 @NgModule({

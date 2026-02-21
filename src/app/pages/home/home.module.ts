@@ -7,6 +7,7 @@ import { NgApexchartsModule } from 'ng-apexcharts'
 import { DropdownModule } from 'primeng/dropdown'
 import { FormsModule } from '@angular/forms'
 import { ScheduleCalendarModule } from '@components/schedule-calendar/schedule-calendar.module'
+import { TooltipModule } from 'primeng/tooltip'
 
 @NgModule({
   declarations: [HomeComponent],
@@ -17,6 +18,7 @@ import { ScheduleCalendarModule } from '@components/schedule-calendar/schedule-c
     DropdownModule,
     FormsModule,
     ScheduleCalendarModule,
+    TooltipModule,
   ],
 })
 export class HomeModule {}

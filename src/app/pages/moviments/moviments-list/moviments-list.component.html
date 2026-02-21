@@ -3,9 +3,9 @@
     #dt
     [value]="content"
     dataKey="id"
-    [rows]="10"
-    [columns]="['id', 'name', 'nivel', 'idioma', 'telefone']"
+    [rows]="this.paginationConfig?.rows || 5"
     [loading]="loading"
+    [lazy]="true"
     [rowsPerPageOptions]="[5, 10, 20, 30]"
     [showCurrentPageReport]="true"
     [showPageLinks]="false"
@@ -14,7 +14,9 @@
     [paginator]="true"
     [globalFilterFields]="['name', 'id', 'email']"
     responsiveLayout="scroll"
+    [totalRecords]="paginationConfig?.total"
     currentPageReportTemplate="{first} - {last} de {totalRecords}"
+    (onLazyLoad)="loadData($event)"
     dataKey="id"
   >
     <ng-template pTemplate="caption">
@@ -30,6 +32,17 @@
             class="w-full"
           />
         </span>
+
+        <p-dropdown
+          [options]="filterType"
+          [(ngModel)]="selectedFilter"
+          optionLabel="name"
+          optionValue="code"
+          (onChange)="typeFilter()"
+          [showClear]="true"
+          [style]="{ minWidth: '220px' }"
+          placeholder="Tipo de movimentação"
+        />
       </div>
     </ng-template>
     <ng-template pTemplate="header">
@@ -65,8 +78,8 @@
     </ng-template>
     <ng-template pTemplate="body" let-item>
       <tr>
-        <td>
-          {{ item.cod }}
+        <td [pTooltip]="item.cod">
+          {{ item.cod | ellipsis: 7 }}
         </td>
         <td>{{ item.type_operation.title }}</td>
         <td class="relative">{{ item.type.title }}</td>
@@ -80,14 +93,20 @@
         <td>
           <span class="flex">
             <button
-              class="icon-info accio-table__action"
+              class="icon-info accio-table__action cursor-pointer"
               (click)="showObsModal = true"
               [disabled]="!item.obs"
+              type="button"
             ></button>
-            <button class="icon-edit accio-table__action" (click)="openEditor(item)"></button>
             <button
-              class="icon-trash-2 accio-table__action"
-              (click)="confirmationModal.openConfirmation($event)"
+              class="icon-edit accio-table__action cursor-pointer"
+              (click)="openEditor(item)"
+              type="button"
+            ></button>
+            <button
+              class="icon-trash-2 accio-table__action cursor-pointer"
+              (click)="deleteMovement($event, item)"
+              type="button"
             ></button>
           </span>
         </td>
@@ -95,13 +114,15 @@
     </ng-template>
     <ng-template pTemplate="emptymessage">
       <tr>
-        <td colspan="8">No users found.</td>
+        <td colspan="8">Nenhum dado encontrado</td>
       </tr>
     </ng-template>
     <ng-template pTemplate="loadingbody">
       <tr>
-        <td colspan="8">Loading users data. Please wait.</td>
+        <td colspan="8">Carregando dados...</td>
       </tr>
     </ng-template>
   </p-table>
 </section>
+
+<p-confirmPopup />

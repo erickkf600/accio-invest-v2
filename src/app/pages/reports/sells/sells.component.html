@@ -1,0 +1,69 @@
+<section class="sells" *ngIf="sellHistoryContent.length; else noData">
+  <p-toolbar styleClass="mb-3">
+    <ng-template pTemplate="left">
+      <span class="p-input-icon-left mb-2">
+        <i class="pi pi-search"></i>
+        <input
+          pInputText
+          type="text"
+          #filter
+          (input)="onGlobalFilter(dt, $event)"
+          placeholder="Pesquisar"
+          class="w-full"
+        />
+      </span>
+    </ng-template>
+    <ng-template pTemplate="right">
+      <button
+        pButton
+        pRipple
+        label="Gerar PDF"
+        icon="pi pi-download"
+        class="p-button-contrast"
+        (click)="downloadPDF()"
+      ></button>
+    </ng-template>
+  </p-toolbar>
+  <div class="card">
+    <p class="text-lg font-bold w-full justify-content-end flex">
+      TOTAL: {{ total | currency: 'BRL' }}
+    </p>
+    <div class="w-full">
+      <p-table
+        #dt
+        [value]="sellHistoryContent"
+        [globalFilterFields]="['date_operation', 'id', 'type']"
+        styleClass="p-datatable-gridlines p-datatable-striped"
+      >
+        <ng-template pTemplate="header">
+          <tr>
+            <th class="text-center">Cod</th>
+            <th class="text-center">Data</th>
+            <th class="text-center">Tipo</th>
+            <th class="text-center">Valor</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rent>
+          <tr>
+            <td class="text-center">{{ rent.cod }}</td>
+            <td class="text-center">
+              {{ rent.date_operation }}
+            </td>
+            <td class="text-center">
+              {{ rent.assetsType.full_title }}
+            </td>
+            <td class="text-center">
+              {{ rent.total | currency: 'BRL' }}
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+  </div>
+</section>
+
+<ng-template #noData>
+  <div class="card">
+    <p>Nenhuma venda cadastrada</p>
+  </div>
+</ng-template>

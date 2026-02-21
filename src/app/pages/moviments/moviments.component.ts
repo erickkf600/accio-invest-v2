@@ -1,7 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core'
 import { MovimentsService } from './services/moviments.service'
-import { Subscription, map, switchMap } from 'rxjs'
+import { Subscription, finalize, map, switchMap } from 'rxjs'
 import { MessageService } from 'primeng/api'
+import { WalletService } from '../wallet/service/wallet.service'
 
 @Component({
   selector: 'app-moviments',
@@ -10,10 +11,26 @@ import { MessageService } from 'primeng/api'
 export class MovimentsComponent implements OnInit, OnDestroy {
   public formTypes = this.movimentsService.formType$
   public subscriptions: Subscription[] = []
-  public titles: string[] = ['Adicionar', 'Compra', 'Dividendos', 'Venda', 'Desdobramento']
-  public sessionsNames = ['pre-register-movimentacao']
+  public titles: string[] = [
+    'Adicionar',
+    'Compra',
+    'Venda',
+    'Dividendos',
+    'Desdobramento',
+    '',
+    'Renda fixa',
+  ]
+  public sessionsNames = [
+    'pre-register-movimentacao',
+    'pre-register-venda',
+    'pre-register-dividendos',
+    'pre-register-desdo',
+    '',
+    'pre-register-renda-fixa',
+  ]
   public total = 0
   public tableContent: any
+  savingLoader = false
   public menuItens = [
     {
       label: 'Compra',
@@ -22,15 +39,21 @@ export class MovimentsComponent implements OnInit, OnDestroy {
       },
     },
     {
-      label: 'Dividendos',
+      label: 'Renda fixa',
       command: () => {
-        this.movimentsService.formType.next(2)
+        this.movimentsService.formType.next(6)
+      },
+    },
+    {
+      label: 'Proventos',
+      command: () => {
+        this.movimentsService.formType.next(3)
       },
     },
     {
       label: 'Venda',
       command: () => {
-        this.movimentsService.formType.next(3)
+        this.movimentsService.formType.next(2)
       },
     },
     {
@@ -44,6 +67,7 @@ export class MovimentsComponent implements OnInit, OnDestroy {
   constructor(
     public movimentsService: MovimentsService,
     private messageService: MessageService,
+    private walletService: WalletService,
   ) {}
 
   ngOnInit(): void {
@@ -63,10 +87,14 @@ export class MovimentsComponent implements OnInit, OnDestroy {
           }),
         )
         .subscribe(res => {
-          console.log(res)
           this.total = res?.sumTotal
           this.tableContent = res?.res
         }),
+
+      this.walletService.getAssetsList().subscribe((res: any[]) => {
+        this.movimentsService.assetsList$.next(res.filter(r => r.type_id !== 3).map(el => el.cod))
+        this.movimentsService.rfList$.next(res.filter(r => r.type_id === 3).map(el => el.cod))
+      }),
     )
   }
 
@@ -84,30 +112,39 @@ export class MovimentsComponent implements OnInit, OnDestroy {
         cod: el.cod,
         date_operation: el.date_operation,
         qtd: el.qtd,
-        type: el.type.id,
-        type_operation: el.type_operation.id,
+        type: el.type,
+        type_operation: el.type_operation,
         unity_value: el.unity_value.toString(),
         fee: el.fee || 0,
         obs: el.obs,
         total: el.total,
-        year: +el.date_operation.split('/').pop(),
-        month_ref: +el.date_operation.split('/')[1],
       }
     })
-    this.movimentsService.saveMoviments(payload).subscribe({
-      next: (res: any) => {
-        console.log('response', res)
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Sucesso',
-          detail: 'Movimentação registrada',
-        })
-        sessionStorage.removeItem(this.sessionsNames[this.movimentsService.formType.getValue() - 1])
-      },
-      error: error => {
-        console.error(error)
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Ocorreu um erro' })
-      },
-    })
+
+    this.savingLoader = true
+    this.movimentsService
+      .saveMoviments(payload)
+      .pipe(finalize(() => (this.savingLoader = false)))
+      .subscribe({
+        next: () => {
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Sucesso',
+            detail: 'Movimentação registrada',
+          })
+          this.movimentsService.removeSessionKey(
+            this.sessionsNames[this.movimentsService.formType.getValue() - 1],
+          )
+          this.movimentsService.formType.next(0)
+        },
+        error: error => {
+          console.error(error)
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'Ocorreu um erro',
+          })
+        },
+      })
   }
 }

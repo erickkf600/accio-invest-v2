@@ -4,8 +4,9 @@ import { NavigationEnd, Router } from '@angular/router'
 import { HeaderComponent } from '@components/header/header.component'
 import { SidemenuComponent } from '@components/sidemenu/sidemenu.component'
 import { LayoutService } from '@services/app.layout.service'
+import { PrimeNGConfig } from 'primeng/api'
 import { Subscription, filter, map, startWith } from 'rxjs'
-
+import { pt } from 'primelocale/pt.json'
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -34,11 +35,13 @@ export class AppComponent implements OnInit, OnDestroy {
     private router: Router,
     private layoutService: LayoutService,
     private renderer: Renderer2,
+    private config: PrimeNGConfig,
     @Inject(DOCUMENT) private document: Document,
   ) {}
 
   ngOnInit(): void {
     this.verifyRoute()
+    this.config.setTranslation(pt)
 
     this.subscriptions.push(
       this.layoutService.overlayOpen$.subscribe(() => {

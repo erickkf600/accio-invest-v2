@@ -1,0 +1,120 @@
+<section class="sells">
+  <p-toolbar styleClass="mb-3">
+    <ng-template pTemplate="left">
+      <span class="p-input-icon-left mb-2">
+        <i class="pi pi-search"></i>
+        <input
+          pInputText
+          type="text"
+          #filter
+          (input)="onGlobalFilter($event)"
+          placeholder="Pesquisar"
+          class="w-full"
+        />
+      </span>
+    </ng-template>
+    <ng-template pTemplate="right">
+      <button
+        pButton
+        pRipple
+        label="Filtrar período"
+        icon="pi pi-calendar"
+        class="p-button-contrast mr-3"
+        (click)="op.toggle($event)"
+      ></button>
+      <button
+        pButton
+        pRipple
+        label="Gerar PDF"
+        icon="pi pi-download"
+        class="p-button-contrast"
+        (click)="downloadPDF()"
+      ></button>
+    </ng-template>
+  </p-toolbar>
+
+  <p-overlayPanel #op>
+    <form [formGroup]="filterFormGroup" (ngSubmit)="sendFilter()">
+      <div class="flex flex-column p-3 gap-3 w-min">
+        <input-autocomplete class="flex flex-column gap-2" [options]="assetsList">
+          <label htmlFor="cod" label class="font-semibold">Cód. Ativo</label>
+          <input pInputText id="cod" type="text" formControlName="cod" inputUpperCase #inputRef />
+        </input-autocomplete>
+
+        <div class="flex flex-column gap-2">
+          <label for="period" class="font-semibold">Selecione o período</label>
+          <p-calendar
+            appendTo="body"
+            formControlName="period"
+            selectionMode="range"
+            [readonlyInput]="true"
+            dateFormat="mm-yy"
+            inputId="period"
+            view="month"
+            placeholder="Selecione"
+          />
+        </div>
+      </div>
+      <span class="flex flex-row justify-content-between align-items-center px-3 pb-3">
+        <button
+          pButton
+          label="Limpar"
+          size="small"
+          severity="secondary"
+          [text]="true"
+          type="button"
+          [disabled]="filterFormGroup.invalid"
+          (click)="clearFilter()"
+        ></button>
+        <button
+          pButton
+          label="Filtrar"
+          size="small"
+          type="submit"
+          severity="contrast"
+          [disabled]="buttonDisabled"
+        ></button>
+      </span>
+    </form>
+  </p-overlayPanel>
+
+  <div class="card" *ngIf="pMHistoryContent.length; else noData">
+    <div class="w-full">
+      <p-table
+        #table
+        [value]="pMHistoryContent"
+        [globalFilterFields]="['cod']"
+        styleClass="p-datatable-gridlines p-datatable-striped"
+      >
+        <ng-template pTemplate="header">
+          <tr>
+            <th class="text-center">Cod</th>
+            <th class="text-center">Quantidade</th>
+            <th class="text-center">Preço médio</th>
+            <th class="text-center">Total Investido</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-pm>
+          <tr>
+            <td class="text-center">{{ pm.cod }}</td>
+            <td class="text-center">
+              {{ pm.qtd }}
+            </td>
+            <td class="text-center">
+              {{ pm.medium_price | currency: 'BRL' }}
+            </td>
+            <td class="text-center">
+              {{ pm.total | currency: 'BRL' }}
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+  </div>
+</section>
+
+<ng-template #noData>
+  <div class="card">
+    <p>Nenhuma registro cadastrado</p>
+  </div>
+</ng-template>

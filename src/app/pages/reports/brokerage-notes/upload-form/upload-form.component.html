@@ -1,0 +1,73 @@
+<form [formGroup]="buildFormGroup" (ngSubmit)="submitForm()">
+  <div class="grid">
+    <div class="field col-12 md:col-4 mb-0">
+      <label for="name">Nome do arquivo</label>
+      <input pInputText id="name" type="text" formControlName="name" />
+    </div>
+    <div class="field col-12 md:col-4 mb-0">
+      <label for="opDate">Data da operação</label>
+      <p-inputMask formControlName="date_operation" mask="99/99/9999" inputId="opDate" />
+    </div>
+    <div class="field col-12 md:col-4 mb-0">
+      <label for="type">Tipo de Nota</label>
+      <p-dropdown
+        inputId="type"
+        [options]="invoiceTypes"
+        formControlName="type"
+        optionValue="value"
+        optionLabel="label"
+      />
+    </div>
+    <!-- todo adicionar um overlay e so desbloquar quando form tiver preenchido -->
+    <div class="col-12">
+      <p-fileUpload
+        (onSelect)="onUpload($event)"
+        [auto]="false"
+        maxFileSize="1000000"
+        accept="application/pdf"
+      >
+        <ng-template pTemplate="header" let-callback="chooseCallback">
+          <button
+            pButton
+            pRipple
+            label="Selecionar documento"
+            icon="pi pi-file"
+            class="p-button-contrast"
+            (click)="callback()"
+          ></button>
+        </ng-template>
+
+        <ng-template pTemplate="file">
+          <ul *ngIf="uploadedFiles.length">
+            <li *ngFor="let file of uploadedFiles">{{ file.name }} - {{ file.size }} bytes</li>
+          </ul>
+        </ng-template>
+        <ng-template pTemplate="content">
+          <p class="text-lg text-200 font-bold my-2" *ngIf="!uploadedFiles.length">
+            Selecione ou arraste um pdf
+          </p>
+        </ng-template>
+      </p-fileUpload>
+    </div>
+    <!-- <input type="file" hidden aria-hidden="true" #upload accept="application/pdf" />
+    <button
+      pButton
+      pRipple
+      label="Selecionar documento"
+      icon="pi pi-upload"
+      class="p-button-contrast"
+      [loading]="uploadLoading"
+      (click)="upload.click()"
+    ></button> -->
+  </div>
+  <div class="mt-4 flex justify-content-center">
+    <button
+      pButton
+      pRipple
+      label="Enviar"
+      icon="pi pi-upload"
+      class="p-button-contrast mt-5"
+      [loading]="uploadLoading"
+    ></button>
+  </div>
+</form>

@@ -10,6 +10,8 @@ import { delay, finalize } from 'rxjs/operators'
 })
 export class LoadingInterceptor {
   activeRequests = 0
+  private hideSpinnerTimeout: ReturnType<typeof setTimeout>
+
   constructor(private loadingService: LoadingService) {}
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
@@ -19,11 +21,15 @@ export class LoadingInterceptor {
       }
       this.activeRequests++
       return next.handle(request).pipe(
-        delay(1500),
         finalize(() => {
           this.activeRequests--
           if (this.activeRequests === 0) {
-            this.loadingService.setLoading(false)
+            clearTimeout(this.hideSpinnerTimeout)
+            this.hideSpinnerTimeout = setTimeout(() => {
+              if (this.activeRequests === 0) {
+                this.loadingService.setLoading(false)
+              }
+            }, 300)
           }
         }),
       )

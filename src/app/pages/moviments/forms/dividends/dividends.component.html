@@ -1,0 +1,152 @@
+<section class="flex flex-column">
+  <span class="flex align-items-center justify-content-between mt-2 mb-5">
+    <span>
+      <ng-container *ngIf="!isEdit">
+        <p-overlayPanel #calendarRef>
+          <p-calendar
+            [(ngModel)]="dateSelection"
+            [inline]="true"
+            selectionMode="range"
+            styleClass="last-exams__calendar p-0 border-none"
+            (onSelect)="searchDividends($event, calendarRef)"
+          >
+          </p-calendar>
+        </p-overlayPanel>
+
+        <button
+          pButton
+          label="Buscar dividendos"
+          severity="secondary"
+          icon="pi pi-search"
+          [outlined]="true"
+          size="small"
+          [loading]="searchingDividends"
+          (click)="calendarRef.toggle($event)"
+        ></button>
+      </ng-container>
+    </span>
+    <button
+      pButton
+      icon="pi pi-times"
+      [rounded]="true"
+      [text]="true"
+      severity="danger"
+      (click)="close()"
+    ></button>
+  </span>
+
+  <form [formGroup]="buildFormGroup" (ngSubmit)="submitForm()" class="px-5">
+    <div class="p-fluid p-formgrid grid">
+      <div class="field col-12 md:col-4 mb-0"></div>
+      <div class="field col-12 md:col-4 mb-0">
+        <label htmlFor="opDate">Data da operação</label>
+        <p-inputMask formControlName="date_operation" mask="99/99/9999" inputId="opDate" />
+      </div>
+      <div class="field col-12 md:col-4 mb-0">
+        <label>Tipo de provento</label>
+        <p-dropdown
+          [options]="operationTypes"
+          formControlName="type_operation"
+          optionValue="value"
+          optionLabel="label"
+        />
+      </div>
+
+      <div
+        class="grid p-0 m-0 relative"
+        formArrayName="dividends"
+        *ngFor="let purchase of DividendsArray.controls; let i = index"
+      >
+        <button
+          pButton
+          icon="pi pi-minus-circle"
+          [rounded]="true"
+          [text]="true"
+          severity="danger"
+          (click)="removePurchase(i)"
+          class="remove-button"
+          size="small"
+          *ngIf="i > 0"
+        ></button>
+        <ng-container [formGroupName]="i">
+          <div class="field col-12 md:col-3 mb-0">
+            <label>Tipo</label>
+            <p-dropdown
+              [options]="assetTypes"
+              formControlName="type"
+              optionValue="value"
+              optionLabel="label"
+            />
+          </div>
+          <input-autocomplete
+            class="field col-12 md:col-3 mb-0"
+            [options]="movimentsService.assetsList$.asObservable() | async"
+          >
+            <label htmlFor="cod" label>Cód. Ativo</label>
+            <input pInputText id="cod" type="text" formControlName="cod" inputUpperCase #inputRef />
+          </input-autocomplete>
+          <div class="field col-12 md:col-3 mb-0">
+            <label htmlFor="qtd">Quantidade</label>
+            <p-inputNumber
+              formControlName="qtd"
+              inputId="qtd"
+              [step]="1"
+              [min]="0"
+              [useGrouping]="false"
+            />
+          </div>
+          <div class="field col-12 md:col-3 mb-0 realtive">
+            <label
+              htmlFor="unityValue"
+              class="flex justify-content-between align-items-center relative"
+            >
+              Valor Unitário
+              <p-toggleButton
+                onLabel="number"
+                offLabel="currency"
+                tabindex="-1"
+                (onChange)="hasCurrencyMask2 = !hasCurrencyMask2"
+                styleClass="input-toggle"
+              />
+            </label>
+            <input
+              pInputText
+              id="unityValue"
+              type="text"
+              formControlName="unity_value"
+              [currencyMask]="hasCurrencyMask2"
+            />
+          </div>
+          <div class="field col-12 mb-0">
+            <label htmlFor="cod">Observações</label>
+            <textarea rows="5" cols="30" pInputTextarea formControlName="obs"></textarea>
+          </div>
+        </ng-container>
+      </div>
+      <p-button
+        label="Adicionar"
+        icon="pi pi-plus"
+        iconPos="right"
+        [text]="true"
+        [plain]="true"
+        size="small"
+        (click)="addPurchase()"
+        *ngIf="!(movimentsService.editContent$.asObservable() | async)"
+      />
+    </div>
+
+    <div class="mt-4 flex justify-content-center">
+      <p-button
+        [label]="
+          !(movimentsService.editContent$.asObservable() | async)
+            ? 'Adicionar Dividendo'
+            : 'Editar Dividendo'
+        "
+        severity="contrast"
+        [outlined]="true"
+        [disabled]="buildFormGroup.invalid"
+        type="submit"
+      />
+    </div>
+  </form>
+</section>

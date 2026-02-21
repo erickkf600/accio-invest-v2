@@ -1,0 +1,102 @@
+<section>
+  <p-toolbar styleClass="mb-3">
+    <ng-template pTemplate="left">
+      <span class="p-input-icon-left mb-2">
+        <i class="pi pi-search"></i>
+        <input
+          pInputText
+          type="text"
+          #filter
+          (input)="onGlobalFilter(dt, $event)"
+          placeholder="Pesquisar"
+          class="w-full"
+        />
+      </span>
+    </ng-template>
+    <ng-template pTemplate="right">
+      <button
+        pButton
+        pRipple
+        label="Adicionar"
+        icon="pi pi-upload"
+        class="p-button-contrast"
+        (click)="openForm()"
+      ></button>
+      <!-- <input
+        type="file"
+        hidden
+        aria-hidden="true"
+        #upload
+        (change)="openForm()"
+        accept="application/pdf"
+      />
+      <button
+        pButton
+        pRipple
+        label="Adicionar"
+        icon="pi pi-upload"
+        class="p-button-contrast"
+        [loading]="uploadLoading"
+        (click)="upload.click()"
+      ></button> -->
+      <!-- <p-fileUpload
+        mode="basic"
+        chooseLabel="Adicionar"
+        chooseIcon="pi pi-upload"
+        name="nota_corretagem[]"
+        accept="application/pdf"
+        [auto]="true"
+        (onSelect)="onUpload($event)"
+        styleClass="p-button-contrast"
+      /> -->
+    </ng-template>
+  </p-toolbar>
+
+  <div class="card" *ngIf="brokerageContent.length; else noData">
+    <div class="w-full">
+      <p-table
+        #dt
+        [value]="brokerageContent"
+        [globalFilterFields]="['name', 'date_operation']"
+        styleClass="p-datatable-gridlines p-datatable-striped"
+      >
+        <ng-template pTemplate="caption"> </ng-template>
+        <ng-template pTemplate="header">
+          <tr>
+            <th class="text-center">Nome</th>
+            <th class="text-center">Data de cadastro</th>
+            <th class="text-center">Ação</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-invoice>
+          <tr>
+            <td class="text-center">{{ invoice.name | ellipsis: 70 }}</td>
+            <td class="text-center">
+              {{ invoice.date_operation }}
+            </td>
+            <td class="text-center">
+              <span class="flex justify-content-center align-items-center">
+                <button
+                  class="pi pi-eye accio-table__action cursor-pointer relative"
+                  style="top: 1px"
+                  type="button"
+                  (click)="viewFile(invoice.path)"
+                ></button>
+                <button
+                  class="icon-trash-2 accio-table__action cursor-pointer"
+                  type="button"
+                ></button>
+              </span>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+  </div>
+</section>
+
+<ng-template #noData>
+  <div class="card">
+    <p>Nenhuma nota cadastrada encontrado</p>
+  </div>
+</ng-template>
